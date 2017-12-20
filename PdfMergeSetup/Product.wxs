@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*"
+           Codepage="1252"
+           Language="1033"
+           Manufacturer="PdfMerge"
+           Name="PdfMerge"
+           UpgradeCode="{F5A29819-944E-46A6-8791-D8BF55018999}"
+           Version="2.00.0">
+    <Package InstallerVersion="200"
+             Comments="PdfMerge - An Open Source Pdf Splitter/Merger with bookmark importing"
+             Compressed="yes"
+             Description="PdfMerge - An Open Source Pdf Splitter/Merger with bookmark importing"
+             Languages="1033"
+             Manufacturer="Charles Van Lingen"
+             Platform="x86"
+             InstallScope="perMachine"/>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="PdfMerge" Level="1">
+      <ComponentRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+    </Feature>
+
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="APPLICATIONROOTDIRECTORY" Name="PdfMerge"/>
+      </Directory>
+      
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="PdfMerge"/>
+      </Directory>
+      
+      <Directory Id="DesktopFolder" Name="Desktop"></Directory>
+      
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
+      <Component Id="ProductComponents" Guid="*">
+        <File Id="MAINEXE" Source="$(var.PdfMerge.TargetPath)" KeyPath="yes" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="*">
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="PdfMerge" Description="PdfMerge" Target="[#MAINEXE]" WorkingDirectory="INSTALLFOLDER"/>
+        <RemoveFolder Id="RemoveApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\PdfMerge\PdfMerge" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="ApplicationShortcutDesktop" Guid="*">
+        <Shortcut Id="ApplicationDesktopShortcut" Directory="DesktopFolder" Name="PdfMerge" Description="PdfMerge" Target="[#MAINEXE]" WorkingDirectory="APPLICATIONROOTDIRECTORY" Advertise="no"/>
+        <RemoveFolder Id="RemoveDesktopFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\PdfMerge\PdfMerge" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+</Wix>
