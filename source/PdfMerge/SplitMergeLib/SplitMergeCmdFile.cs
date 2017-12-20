@@ -452,7 +452,7 @@ namespace PdfMerge.SplitMergeLib
                     break;
                 }
 
-                if (Directory.GetParent(findPath).FullName == null)
+                if (Directory.GetParent(findPath) == null)
                 {
                     return;
                 }

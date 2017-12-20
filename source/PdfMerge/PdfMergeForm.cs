@@ -44,6 +44,8 @@
 //   1.4 Dec 20/2017 C. Van Lingen  <V2.00> Migrated to PdfSharp 1.50 beta 4c
 //                                  Automatically rebuild filenames if possible
 //                                  when files are moved to a different folder. 
+//                                  Fixed error handling when using View button 
+//                                  and file(s) are not found.
 //   1.3 Oct 21/2012 C. Van Lingen  <V1.21> Added right click context menu for
 //                                  copying filenames to bookmarks and duplicating
 //                                  lines.  Added tooltips.
@@ -458,6 +460,7 @@ namespace PdfMerge
 
             string v = Program.GetViewer();
 
+            List<string> notFound = new List<string>();
             // move up from bottom
             for (int sel_ind = Selected.Count - 1; sel_ind >= 0; --sel_ind)
             {
@@ -465,6 +468,13 @@ namespace PdfMerge
                 MergeListFiles SelectedItem = (MergeListFiles)merger.MergeListFileArray[irow].Clone();
 
                 string fn = SelectedItem.Path;
+
+                if (File.Exists(fn) == false)
+                {
+                    notFound.Add(fn);
+                    continue;
+                }
+
                 if (v.Length == 0)
                 {
                     System.Diagnostics.Process.Start("\"" + fn + "\"");
@@ -475,6 +485,13 @@ namespace PdfMerge
                 }
             }
 
+            if (notFound.Count > 0)
+            {
+                string err = string.Format("{0} file(s) were not found:", notFound.Count);
+                foreach (string fn in notFound)
+                    err += "\n" + fn;
+                MessageBox.Show(err, "Error", MessageBoxButtons.OK);
+            }
         }
 
         private void PdfMergeForm_FormClosing(object sender, FormClosingEventArgs e)
