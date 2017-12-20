@@ -2,11 +2,11 @@
 // Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark 
 // importing. 
 //
-// Uses PdfSharp library (http://sourceforge.net/projects/pdfsharp).
+// Uses PdfSharp library (http://www.pdfsharp.net).
 //
 // Also uses version 4.1.6 of the iTextSharp library 
 // (http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/)
-// iTextSharp is included as an unmodified DLL under the LGPL terms.  
+// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.  
 // See the readme.doc file included with this package.
 //=============================================================================
 // File: SplitMergeCmdFile.cs
@@ -41,17 +41,22 @@
 //
 // Revision History:
 //
-//   1.3 Oct  7/2012 C. Van Lingen  <V20> Migrated to PdfSharp 1.32
+//   1.3 Dec 20/2017 C. Van Lingen  <V2.00> Migrated to PdfSharp 1.50 beta 4c
+//                                  Automatically rebuild filenames if possible
+//                                  when files are moved to a different folder 
+//
+//   1.3 Oct  7/2012 C. Van Lingen  <V1.20> Migrated to PdfSharp 1.32
 //                                  Added use of CompatiblePdfReader based
 //                                  on iTextSharp DLL
 //                                  Added pagination and annotation
-//   1.2 Jul 25/2008 C. Van Lingen  <V18> Added XML command file support to allow
+//
+//   1.2 Jul 25/2008 C. Van Lingen  <V1.18> Added XML command file support to allow
 //                                  operation with unicode strings
 //
-//   1.1 Jan  1/2008 C. Van Lingen  (V17) Replaced merge tool with PDF sharp 
+//   1.1 Jan  1/2008 C. Van Lingen  (V1.17) Replaced merge tool with PDF sharp 
 //                                  (handles up to version 1.6 PDF formats)
 //
-//   1.0 Oct 17/2006 C. Van Lingen  Added use of PdfTk to preprocess for multiple version tags (V14)
+//   1.0 Oct 17/2006 C. Van Lingen  Added use of PdfTk to preprocess for multiple version tags (V1.14)
 //                                  (Previous fix was not adequate)
 //=============================================================================
 
@@ -62,6 +67,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Xml;
+using System.Linq;
 
 namespace PdfMerge.SplitMergeLib
 {
@@ -149,10 +155,16 @@ namespace PdfMerge.SplitMergeLib
             {
                 try
                 {
+                    int fileMissingCount = 0;
                     if (CommandFilename.ToLower().EndsWith(".xml"))
-                        ReadXmlCommandFile(CommandFilename);
+                        fileMissingCount = ReadXmlCommandFile(CommandFilename);
                     else
-                        ReadAsciiCommandFile(CommandFilename);
+                        fileMissingCount = ReadAsciiCommandFile(CommandFilename);
+
+                    if (fileMissingCount > 0)
+                    {
+                        ResolvePathsIfFoldersMoved(CommandFilename, fileMissingCount);
+                    }
                 }
                 catch (Exception err)
                 {
@@ -250,10 +262,16 @@ namespace PdfMerge.SplitMergeLib
         {
             try
             {
+                int fileMissingCount = 0;
                 if (CommandFilename.ToLower().EndsWith(".xml"))
-                    ReadXmlCommandFile(CommandFilename);
+                    fileMissingCount = ReadXmlCommandFile(CommandFilename);
                 else
-                    ReadAsciiCommandFile(CommandFilename);
+                    fileMissingCount = ReadAsciiCommandFile(CommandFilename);
+
+                if (fileMissingCount > 0)
+                {
+                    ResolvePathsIfFoldersMoved(CommandFilename, fileMissingCount);
+                }
             }
             catch (Exception err)
             {
@@ -292,8 +310,10 @@ namespace PdfMerge.SplitMergeLib
             }
         }
 
-        private void ReadAsciiCommandFile(string filename)
+        private int ReadAsciiCommandFile(string filename)
         {
+            int fileMissingCount = 0;
+
             MergeListFileArray = new List<MergeListFiles>();
             MergeListInfo = new MergeListInfoDefn();
 
@@ -330,6 +350,10 @@ namespace PdfMerge.SplitMergeLib
                             if (args.Length > 4)
                                 MergeElement.Level = int.Parse(args[4]);
                             MergeListFileArray.Add(MergeElement);
+                            if (File.Exists(MergeElement.Path) == false)
+                            {
+                                ++fileMissingCount;
+                            }
                         }
                     }
                 }
@@ -341,6 +365,8 @@ namespace PdfMerge.SplitMergeLib
                         throw new Exception(err.Message + "\nOn Line:\n" + line);
                 throw err;
             }
+
+            return fileMissingCount;
         }
 
         private void SaveXmlCommandFile(string filename)
@@ -399,14 +425,81 @@ namespace PdfMerge.SplitMergeLib
             writer.Close();  
         }
 
-        private void ReadXmlCommandFile(string filename)
+        private void ResolvePathsIfFoldersMoved(string cmdFileName, int missingCount)
         {
+            // first get a list of folders used in the plan
+            List<string> planFolders = new List<string>();
+            foreach (MergeListFiles MergeElement in MergeListFileArray)
+            {
+                string folder = Path.GetDirectoryName(MergeElement.Path);
+                if (planFolders.Contains(folder) == false)
+                {
+                    planFolders.Add(folder);
+                }
+            }
+
+            if (planFolders.Count < 1)
+                return;
+
+            // find the common path
+            string commonPath = RosettaCodeTasks.FindCommonDirectoryPath.FindCommonPath(@"\", planFolders);
+
+            string findPath = Path.GetDirectoryName(cmdFileName);
+            while (true)
+            {
+                if (CheckMissing(commonPath, findPath) == 0)
+                {
+                    break;
+                }
+
+                if (Directory.GetParent(findPath).FullName == null)
+                {
+                    return;
+                }
+
+                findPath = Directory.GetParent(findPath).FullName;
+            }
+
+            // all found - go ahead and adjust
+            AdjustFolders(commonPath, findPath);
+        }
+
+        private int CheckMissing(string oldCommonFolder, string newCommonFolder)
+        {
+            int countMissing = 0;
+            foreach (MergeListFiles MergeElement in MergeListFileArray)
+            {
+                string newFileName = MergeElement.Path.Replace(oldCommonFolder, newCommonFolder);
+                if (File.Exists(newFileName) == false && File.Exists(MergeElement.Path) == false)
+                {
+                    ++countMissing;
+                }
+            }
+            return countMissing;
+        }
+
+        private void AdjustFolders(string oldCommonFolder, string newCommonFolder)
+        {
+            foreach (MergeListFiles MergeElement in MergeListFileArray)
+            {
+                MergeElement.Path = MergeElement.Path.Replace(oldCommonFolder, newCommonFolder);
+            }
+
+            MergeListInfo.OutFilename = MergeListInfo.OutFilename.Replace(oldCommonFolder, newCommonFolder);
+        }
+
+        private int ReadXmlCommandFile(string filename)
+        {
+            string PlanFilePath = Path.GetDirectoryName(filename);
+
             MergeListFileArray = new List<MergeListFiles>();
             MergeListInfo = new MergeListInfoDefn();
 
             MergeListFiles MergeElement = null;
 
             System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader(filename);
+
+            int fileNotFoundCount = 0;
 
             while (reader.Read())
             {
@@ -425,6 +518,11 @@ namespace PdfMerge.SplitMergeLib
                             break;
                         case "path":
                             MergeElement.Path = reader.ReadElementContentAsString();
+                            // resolve paths, if files were moved
+                            if (File.Exists(MergeElement.Path) == false)
+                            {
+                                ++fileNotFoundCount;
+                            }
                             break;
                         case "pages":
                             MergeElement.Pages = reader.ReadElementContentAsString();
@@ -466,6 +564,8 @@ namespace PdfMerge.SplitMergeLib
             if (MergeElement != null)
                 MergeListFileArray.Add(MergeElement);
             reader.Close();
+
+            return fileNotFoundCount;
         }
 
 	}

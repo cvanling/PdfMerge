@@ -2,11 +2,11 @@
 // Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark 
 // importing. 
 //
-// Uses PdfSharp library (http://sourceforge.net/projects/pdfsharp).
+// Uses PdfSharp library (http://www.pdfsharp.net).
 //
 // Also uses version 4.1.6 of the iTextSharp library 
 // (http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/)
-// iTextSharp is included as an unmodified DLL under the LGPL terms.  
+// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.  
 // See the readme.doc file included with this package.
 //=============================================================================
 // File: PdfMergeForm.cs
@@ -41,15 +41,18 @@
 //
 // Revision History:
 //
-//   1.3 Oct 21/2012 C. Van Lingen  <V21> Added right click context menu for
+//   1.4 Dec 20/2017 C. Van Lingen  <V2.00> Migrated to PdfSharp 1.50 beta 4c
+//                                  Automatically rebuild filenames if possible
+//                                  when files are moved to a different folder. 
+//   1.3 Oct 21/2012 C. Van Lingen  <V1.21> Added right click context menu for
 //                                  copying filenames to bookmarks and duplicating
 //                                  lines.  Added tooltips.
-//   1.2 Oct  7/2012 C. Van Lingen  <V20> Migrated to PdfSharp 1.32
+//   1.2 Oct  7/2012 C. Van Lingen  <V1.20> Migrated to PdfSharp 1.32
 //                                  Added use of CompatiblePdfReader based
 //                                  on iTextSharp DLL
 //                                  Added pagination and annotation
-//   1.1 Mar 15/2009 C. Van Lingen  <V19> Migrated to PdfSharp 1.20, Various GUI updates
-//   1.0 Jul 29/2008 C. Van Lingen  <V18> Initial Release
+//   1.1 Mar 15/2009 C. Van Lingen  <V1.19> Migrated to PdfSharp 1.20, Various GUI updates
+//   1.0 Jul 29/2008 C. Van Lingen  <V1.18> Initial Release
 //=============================================================================
 using System;
 using System.Collections.Generic;

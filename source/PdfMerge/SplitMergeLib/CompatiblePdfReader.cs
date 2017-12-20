@@ -4,7 +4,7 @@
 //=============================================================================
 // Uses version 4.1.6 of the iTextSharp library 
 // (http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/)
-// iTextSharp ncluded as an unmodified DLL under the LGPL terms.  
+// iTextSharp ncluded as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.  
 // See the readme.doc file included with this package.
 //=============================================================================
 

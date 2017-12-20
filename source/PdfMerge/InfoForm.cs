@@ -2,11 +2,11 @@
 // Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark 
 // importing. 
 //
-// Uses PdfSharp library (http://sourceforge.net/projects/pdfsharp).
+// Uses PdfSharp library (http://www.pdfsharp.net).
 //
 // Also uses version 4.1.6 of the iTextSharp library 
 // (http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/)
-// iTextSharp is included as an unmodified DLL under the LGPL terms.  
+// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.  
 // See the readme.doc file included with this package.
 //=============================================================================
 // File: InfoForm.cs
@@ -41,7 +41,7 @@
 //
 // Revision History:
 //
-//   1.0 Aug 2/2008 C. Van Lingen  <V18> Initial Release
+//   1.0 Aug 2/2008 C. Van Lingen  <V1.18> Initial Release
 //=============================================================================
 using System;
 using System.Collections.Generic;
