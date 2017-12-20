@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*"
+           Codepage="1252"
+           Language="1033"
+           Manufacturer="PdfMerge"
+           Name="PdfMerge"
+           UpgradeCode="{F5A29819-944E-46A6-8791-D8BF55018999}"
+           Version="2.00.0">
+    <Package InstallerVersion="200"
+             Comments="PdfMerge - An Open Source Pdf Splitter/Merger with bookmark importing"
+             Compressed="yes"
+             Description="PdfMerge - An Open Source Pdf Splitter/Merger with bookmark importing"
+             Languages="1033"
+             Manufacturer="Charles Van Lingen"
+             Platform="x86"
+             InstallScope="perMachine"/>
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="PdfMerge" Level="1">
+      <ComponentRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+    </Feature>
+    
+    <!--<UI>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDialogOverwritten">1</Publish>
+      <Publish Dialog="LicenseAgreementDialogOverwritten" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+      <Publish Dialog="LicenseAgreementDialogOverwritten" Control="Next" Event="NewDialog" Value="ProductKeyCheckDialog">LicenseAcceptedOverwritten = "1" AND NOT OLDER_VERSION_FOUND</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="ProductKeyCheckDialog">1</Publish>
+    </UI>-->
+
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="APPLICATIONROOTDIRECTORY" Name="PdfMerge">
+          <Directory Id="APPLICATION_LOC_DE" Name="de"/>
+        </Directory>
+      </Directory>
+      
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="PdfMerge"/>
+      </Directory>
+      
+      <Directory Id="DesktopFolder" Name="Desktop"></Directory>
+      
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
+      <Component Id="ProductComponents" Guid="{F5A29819-944E-46A6-8791-D8BF5501899C}">
+        <File Id="MAINEXE" Source="$(var.PdfMerge.TargetPath)" KeyPath="yes" Checksum="yes"/>
+        <File Id="PDFSHARP" Source="$(var.PdfMerge.TargetDir)PdfSharp.dll" KeyPath="no" Checksum="yes"/>
+        <File Id="PDFSHARPCHARTING" Source="$(var.PdfMerge.TargetDir)PdfSharp.Charting.dll" KeyPath="no" Checksum="yes"/>
+        <File Id="ITEXTSHARP" Source="$(var.PdfMerge.TargetDir)iTextSharp.dll" KeyPath="no" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="APPLICATION_LOC_DE">
+      <Component Id="ProductLocDe" Guid="{F5A29819-944E-46A6-8791-D8BF5501899B}">
+        <File Id="PDFSHARPRES" Source="$(var.PdfMerge.TargetDir)\de\PdfSharp.resources.dll" KeyPath="no" Checksum="yes"/>
+        <File Id="PDFSHARPCHARTINGRES" Source="$(var.PdfMerge.TargetDir)\de\PdfSharp.Charting.resources.dll" KeyPath="no" Checksum="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{F5A29819-944E-46A6-8791-D8BF5501899D}">
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="PdfMerge" Description="PdfMerge" Target="[#MAINEXE]" WorkingDirectory="INSTALLFOLDER"/>
+        <RemoveFolder Id="RemoveApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\PdfMerge\PdfMerge" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+    
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="ApplicationShortcutDesktop" Guid="{F5A29819-944E-46A6-8791-D8BF5501899E}">
+        <Shortcut Id="ApplicationDesktopShortcut" Directory="DesktopFolder" Name="PdfMerge" Description="PdfMerge" Target="[#MAINEXE]" WorkingDirectory="APPLICATIONROOTDIRECTORY" Advertise="no"/>
+        <RemoveFolder Id="RemoveDesktopFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\PdfMerge\PdfMerge" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+  <!--<Fragment>
+    <UI>
+      <Dialog Id="LicenseAgreementDialogOverwritten" Width="370" Height="270" Title="!(loc.LicenseAgreementDlg_Title)">
+        <Control Id="LicenseAcceptedOverwrittenCheckBox" Type="CheckBox" X="20" Y="207" Width="330" Height="18" CheckBoxValue="1" Property="LicenseAcceptedOverwritten" Text="!(loc.LicenseAgreementDlgLicenseAcceptedCheckBox)" />
+        <Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
+        <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
+          <Publish Event="SpawnWaitDialog" Value="WaitForCostingDlg">CostingComplete = 1</Publish>
+          <Condition Action="disable">
+            <![CDATA[ LicenseAcceptedOverwritten <> "1" ]]>
+          </Condition>
+          <Condition Action="enable">LicenseAcceptedOverwritten = "1"</Condition>
+        </Control>
+        <Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+        <Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.LicenseAgreementDlgBannerBitmap)" />
+        <Control Id="LicenseText" Type="ScrollableText" X="20" Y="60" Width="330" Height="140" Sunken="yes" TabSkip="no">
+          <Text SourceFile="eula.rtf" />
+        </Control>
+        <Control Id="Print" Type="PushButton" X="112" Y="243" Width="56" Height="17" Text="!(loc.WixUIPrint)">
+          <Publish Event="DoAction" Value="WixUIPrintEula">1</Publish>
+        </Control>
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+        <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+        <Control Id="Description" Type="Text" X="25" Y="23" Width="340" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.LicenseAgreementDlgDescription)" />
+        <Control Id="Title" Type="Text" X="15" Y="6" Width="200" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.LicenseAgreementDlgTitle)" />
+      </Dialog>
+    </UI>
+  </Fragment>-->
+
+</Wix>
