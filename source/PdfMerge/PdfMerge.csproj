@@ -157,6 +157,7 @@
     </Compile>
     <Compile Include="SplitMergeLib\PdfSharpSplitterMerger.cs" />
     <Compile Include="Program.cs" />
+    <Content Include="SplitMergeLib\CmdSample.xml" />
     <EmbeddedResource Include="InfoForm.resx">
       <DependentUpon>InfoForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -200,7 +201,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="SplitMergeLib\CmdSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
+    <None Include="to do list.docx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

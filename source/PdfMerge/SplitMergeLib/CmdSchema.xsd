@@ -1,0 +1,37 @@
+﻿<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="merge">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="file" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="path"/>
+              <xs:element type="xs:string" name="pages"/>
+              <xs:element type="xs:string" name="bookmark"/>
+              <xs:element type="xs:byte" name="level" minOccurs="0"/>
+            </xs:sequence>
+            <xs:attribute type="xs:byte" name="exclude" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="info">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="author"/>
+              <xs:element type="xs:string" name="subject"/>
+              <xs:element type="xs:string" name="title"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="options">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:string" name="outfile"/>
+              <xs:element type="xs:string" name="annotation"/>
+              <xs:element type="xs:byte" name="startpage"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
