@@ -571,7 +571,14 @@ namespace PdfMerge
 
         private void contentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://pdfmerge.wiki.sourceforge.net/");
+            try
+            {
+                System.Diagnostics.Process.Start("https://sourceforge.net/p/pdfmerge/wiki/Home/");
+            }
+            catch
+            {
+                // intentionally ignored
+            }
         }
 
         private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
