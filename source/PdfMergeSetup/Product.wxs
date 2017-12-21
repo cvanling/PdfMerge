@@ -64,7 +64,7 @@
         <File Id="PDFSHARP" Source="$(var.PdfMerge.TargetDir)PdfSharp.dll" KeyPath="no" Checksum="yes"/>
         <File Id="PDFSHARPCHARTING" Source="$(var.PdfMerge.TargetDir)PdfSharp.Charting.dll" KeyPath="no" Checksum="yes"/>
         <File Id="ITEXTSHARP" Source="$(var.PdfMerge.TargetDir)iTextSharp.dll" KeyPath="no" Checksum="yes"/>
-        <File Id="READMEDOC" Source="readme.doc" KeyPath="no" Checksum="yes"/>
+        <File Id="READMEDOC" Source="$(var.PdfMerge.TargetDir)readme.pdf" KeyPath="no" Checksum="yes"/>
       </Component>
     </DirectoryRef>
   </Fragment>

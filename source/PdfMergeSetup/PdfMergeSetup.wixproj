@@ -30,7 +30,6 @@
   <ItemGroup>
     <Content Include="eula-en.rtf" />
     <Content Include="packages.config" />
-    <Content Include="readme.doc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PdfMerge\PdfMerge.csproj">

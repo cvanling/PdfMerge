@@ -67,7 +67,6 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Xml;
-using System.Linq;
 
 namespace PdfMerge.SplitMergeLib
 {
@@ -442,7 +441,7 @@ namespace PdfMerge.SplitMergeLib
                 return;
 
             // find the common path
-            string commonPath = RosettaCodeTasks.FindCommonDirectoryPath.FindCommonPath(@"\", planFolders);
+            string commonPath = FindCommonDirectoryPath.FindCommonPath(planFolders);
 
             string findPath = Path.GetDirectoryName(cmdFileName);
             while (true)

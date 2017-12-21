@@ -571,13 +571,16 @@ namespace PdfMerge
 
         private void contentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            try
+            string v = Program.GetViewer();
+            string fn = Path.Combine(Application.StartupPath, "readme.pdf");
+
+            if (v.Length == 0)
             {
-                System.Diagnostics.Process.Start("https://sourceforge.net/p/pdfmerge/wiki/Home/");
+                System.Diagnostics.Process.Start("\"" + fn + "\"");
             }
-            catch
+            else
             {
-                // intentionally ignored
+                System.Diagnostics.Process.Start(v, "\"" + fn + "\"");
             }
         }
 
