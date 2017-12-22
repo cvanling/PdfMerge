@@ -1,17 +1,17 @@
-﻿//=============================================================================
-// Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark 
-// importing. 
+﻿// =============================================================================
+// Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark
+// importing.
 //
 // Uses PdfSharp library (http://www.pdfsharp.net).
 //
-// Also uses version 4.1.6 of the iTextSharp library 
+// Also uses version 4.1.6 of the iTextSharp library
 // (http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/)
-// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.  
+// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.
 // See the readme.doc file included with this package.
-//=============================================================================
+// =============================================================================
 // File: PdfMergeForm.cs
 // Description: Main form for interactive merge definition
-//=============================================================================
+// =============================================================================
 // Authors:
 //   Charles Van Lingen <mailto:charles.vanlingen@gmail.com>
 //
@@ -34,17 +34,17 @@
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //
-//=============================================================================
+// =============================================================================
 //
 // Revision History:
 //
 //   1.4 Dec 20/2017 C. Van Lingen  <V2.00> Migrated to PdfSharp 1.50 beta 4c
 //                                  Automatically rebuild filenames if possible
-//                                  when files are moved to a different folder. 
-//                                  Fixed error handling when using View button 
+//                                  when files are moved to a different folder.
+//                                  Fixed error handling when using View button
 //                                  and file(s) are not found.
 //   1.3 Oct 21/2012 C. Van Lingen  <V1.21> Added right click context menu for
 //                                  copying filenames to bookmarks and duplicating
@@ -55,170 +55,181 @@
 //                                  Added pagination and annotation
 //   1.1 Mar 15/2009 C. Van Lingen  <V1.19> Migrated to PdfSharp 1.20, Various GUI updates
 //   1.0 Jul 29/2008 C. Van Lingen  <V1.18> Initial Release
-//=============================================================================
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-
-using Microsoft.Win32;
-using JWC;
-
-using PdfMerge.SplitMergeLib;
-
-
+// =============================================================================
 namespace PdfMerge
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.IO;
+    using System.Windows.Forms;
+    using JWC;
+    using PdfMerge.SplitMergeLib;
 
     public partial class PdfMergeForm : Form
     {
-        SplitMergeCmdFile merger = new SplitMergeCmdFile();
-        protected MruStripMenuInline mruMenu;
-        string CurrentFile = "";
-        List<ItemLevel> rowcolors = new List<ItemLevel>();
+        private SplitMergeCmdFile merger = new SplitMergeCmdFile();
+        private MruStripMenuInline mruMenu;
+        private string currentFile = string.Empty;
+        private List<ItemLevel> rowcolors = new List<ItemLevel>();
 
         public PdfMergeForm()
         {
-            InitializeComponent();
-            dataGrid.AllowDrop = true;
+            this.InitializeComponent();
+            this.dataGrid.AllowDrop = true;
 
-            mruMenu = new MruStripMenuInline(fileToolStripMenuItem1, recentToolStripMenuItem, new MruStripMenu.ClickedHandler(OnMruFile), Program.mruRegKey);
+            this.mruMenu = new MruStripMenuInline(this.fileToolStripMenuItem1, this.recentToolStripMenuItem, new MruStripMenu.ClickedHandler(this.OnMruFile), Program.MruRegKey);
 
             // initialize item level array;
-            rowcolors.Add(new ItemLevel(Color.White, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightGray, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightCoral, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightCyan, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightBlue, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LemonChiffon, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightPink, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightGreen, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightPink, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightSalmon, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightSeaGreen, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightSkyBlue, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightSlateGray, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightSteelBlue, rowcolors.Count));
-            rowcolors.Add(new ItemLevel(Color.LightYellow, rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.White, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightGray, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightCoral, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightCyan, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightBlue, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LemonChiffon, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightPink, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightGreen, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightPink, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightSalmon, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightSeaGreen, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightSkyBlue, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightSlateGray, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightSteelBlue, this.rowcolors.Count));
+            this.rowcolors.Add(new ItemLevel(Color.LightYellow, this.rowcolors.Count));
 
-            while (rowcolors.Count < 21)
-                rowcolors.Add(new ItemLevel(Color.LightCyan, rowcolors.Count));
+            while (this.rowcolors.Count < 21)
+            {
+                this.rowcolors.Add(new ItemLevel(Color.LightCyan, this.rowcolors.Count));
+            }
         }
 
-        private void OnMruFile(int number, String filename)
+        private void OnMruFile(int number, string filename)
         {
             // open the selected command file
             if (File.Exists(filename) == false)
+            {
                 return;
-            merger.Load(filename);
-            CurrentFile = filename;
-            UpdateGrid();
+            }
+
+            this.merger.Load(filename);
+            this.currentFile = filename;
+            this.UpdateGrid();
         }
 
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            merger.MergeListFileArray = new List<MergeListFiles>();
-            CurrentFile = "";
-            UpdateGrid();
+            this.merger.MergeListFileArray = new List<MergeListFiles>();
+            this.currentFile = string.Empty;
+            this.UpdateGrid();
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // show a file open dialog
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "Command Files (*.xml;*.lst)|*.xml;*.lst|All files (*.*)|*.*";
             dlg.FilterIndex = 1;
             dlg.RestoreDirectory = true;
-            dlg.FileName = CurrentFile;
+            dlg.FileName = this.currentFile;
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                merger.Load(dlg.FileName);
-                mruMenu.AddFile(dlg.FileName);
-                CurrentFile = dlg.FileName;
+                this.merger.Load(dlg.FileName);
+                this.mruMenu.AddFile(dlg.FileName);
+                this.currentFile = dlg.FileName;
             }
+
             dlg.Dispose();
-            UpdateGrid();
+            this.UpdateGrid();
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentFile == "")
-                SaveAsToolStripMenuItem_Click(null, null);
-            UpdateFromGrid();
-            merger.Save(CurrentFile);
-            UpdateGrid();
+            if (this.currentFile == string.Empty)
+            {
+                this.SaveAsToolStripMenuItem_Click(null, null);
+            }
+
+            this.UpdateFromGrid();
+            this.merger.Save(this.currentFile);
+            this.UpdateGrid();
         }
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UpdateFromGrid();
+            this.UpdateFromGrid();
 
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "Command Files (*.xml;*.lst)|*.xml;*.lst|All files (*.*)|*.*";
             dlg.FilterIndex = 1;
             dlg.RestoreDirectory = true;
-            dlg.FileName = CurrentFile;
+            dlg.FileName = this.currentFile;
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                merger.Save(dlg.FileName);
-                mruMenu.AddFile(dlg.FileName);
-                CurrentFile = dlg.FileName;
+                this.merger.Save(dlg.FileName);
+                this.mruMenu.AddFile(dlg.FileName);
+                this.currentFile = dlg.FileName;
             }
+
             dlg.Dispose();
 
-            UpdateGrid();
+            this.UpdateGrid();
         }
 
         private void UpdateGrid()
         {
-            dataGrid.Rows.Clear();
-            int ItemIndex = 0;
+            this.dataGrid.Rows.Clear();
+            int itemIndex = 0;
 
-            foreach (MergeListFiles mergeitem in merger.MergeListFileArray)
+            foreach (MergeListFiles mergeitem in this.merger.MergeListFileArray)
             {
-                ++ItemIndex;
-                int r = dataGrid.Rows.Add();
+                ++itemIndex;
+                int r = this.dataGrid.Rows.Add();
 
-                dataGrid.Rows[r].Cells[0].Value = rowcolors[mergeitem.Level].GetItemString(r);
-                dataGrid.Rows[r].Cells[0].Style = rowcolors[mergeitem.Level].style;
+                this.dataGrid.Rows[r].Cells[0].Value = this.rowcolors[mergeitem.Level].GetItemString(r);
+                this.dataGrid.Rows[r].Cells[0].Style = this.rowcolors[mergeitem.Level].Style;
 
-                dataGrid.Rows[r].Cells[1].Value = mergeitem.Path;
+                this.dataGrid.Rows[r].Cells[1].Value = mergeitem.Path;
 
-                dataGrid.Rows[r].Cells[2].Value = mergeitem.Pages;
+                this.dataGrid.Rows[r].Cells[2].Value = mergeitem.Pages;
 
                 if (mergeitem.Bookmark != null)
-                    dataGrid.Rows[r].Cells[3].Value = mergeitem.Bookmark;
+                {
+                    this.dataGrid.Rows[r].Cells[3].Value = mergeitem.Bookmark;
+                }
 
-                DataGridViewCheckBoxCell check = (DataGridViewCheckBoxCell)dataGrid.Rows[r].Cells[4];
+                DataGridViewCheckBoxCell check = (DataGridViewCheckBoxCell)this.dataGrid.Rows[r].Cells[4];
                 check.Value = mergeitem.Include;
 
-                DataGridViewComboBoxCell combocell = (DataGridViewComboBoxCell)dataGrid.Rows[r].Cells[5];
+                DataGridViewComboBoxCell combocell = (DataGridViewComboBoxCell)this.dataGrid.Rows[r].Cells[5];
                 combocell.Items.Add("Root");
                 for (int x = 1; x < 20; ++x)
+                {
                     combocell.Items.Add("Level " + x.ToString());
+                }
+
                 combocell.Value = combocell.Items[mergeitem.Level];
             }
 
-            this.Text = "PdfMerge - " + CurrentFile;
+            this.Text = "PdfMerge - " + this.currentFile;
 
-            outBox.Text = merger.MergeListInfo.OutFilename;
-            checkBoxNumberPages.Checked = merger.MergeListInfo.NumberPages;
-            textBoxStartPage.Text = merger.MergeListInfo.StartPage.ToString();
-            if (string.IsNullOrEmpty(merger.MergeListInfo.Annotation) == false)
-                textBoxAnnotate.Text = merger.MergeListInfo.Annotation;
+            this.outBox.Text = this.merger.MergeListInfo.OutFilename;
+            this.checkBoxNumberPages.Checked = this.merger.MergeListInfo.NumberPages;
+            this.textBoxStartPage.Text = this.merger.MergeListInfo.StartPage.ToString();
+            if (string.IsNullOrEmpty(this.merger.MergeListInfo.Annotation) == false)
+            {
+                this.textBoxAnnotate.Text = this.merger.MergeListInfo.Annotation;
+            }
             else
-                textBoxAnnotate.Text = "";
+            {
+                this.textBoxAnnotate.Text = string.Empty;
+            }
         }
 
-        private void buttonPickFile_Click(object sender, EventArgs e)
+        private void ButtonPickFile_Click(object sender, EventArgs e)
         {
-            UpdateFromGrid();
+            this.UpdateFromGrid();
 
             OpenFileDialog openFileDlg = new OpenFileDialog();
             openFileDlg.DefaultExt = "pdf";
@@ -232,24 +243,28 @@ namespace PdfMerge
             {
                 foreach (string file in openFileDlg.FileNames)
                 {
-                    MergeListFiles MergeListItem = new MergeListFiles();
-                    if (merger.MergeListFileArray.Count > 0)
-                        MergeListItem.Level = merger.MergeListFileArray[merger.MergeListFileArray.Count - 1].Level;
-                    MergeListItem.Path = file;
-                    merger.MergeListFileArray.Add(MergeListItem);
+                    MergeListFiles mergeListItem = new MergeListFiles();
+                    if (this.merger.MergeListFileArray.Count > 0)
+                    {
+                        mergeListItem.Level = this.merger.MergeListFileArray[this.merger.MergeListFileArray.Count - 1].Level;
+                    }
+
+                    mergeListItem.Path = file;
+                    this.merger.MergeListFileArray.Add(mergeListItem);
                 }
             }
-            UpdateGrid();
+
+            this.UpdateGrid();
         }
 
         private void Merge_Click(object sender, EventArgs e)
         {
-            UpdateFromGrid();
+            this.UpdateFromGrid();
 
-            int StartPageNum = 1;
+            int startPageNum = 1;
             try
             {
-                StartPageNum = int.Parse(textBoxStartPage.Text);
+                startPageNum = int.Parse(this.textBoxStartPage.Text);
             }
             catch
             {
@@ -257,31 +272,37 @@ namespace PdfMerge
 
             try
             {
-                status.Visible = true;
-                status.Show();
-                status.Items.Clear();
+                this.status.Visible = true;
+                this.status.Show();
+                this.status.Items.Clear();
 
                 while (true)
                 {
                     string err;
                     SplitMergeCmdFile splitmerge = new SplitMergeCmdFile();
-                    err = merger.DoSplitMerge(null,
-                        outBox.Text,
-                        status,
-                        StartPageNum,
-                        checkBoxNumberPages.Checked,
-                        textBoxAnnotate.Text);
+                    err = this.merger.DoSplitMerge(
+                        null,
+                        this.outBox.Text,
+                        this.status,
+                        startPageNum,
+                        this.checkBoxNumberPages.Checked,
+                        this.textBoxAnnotate.Text);
                     if (err.Length == 0)
+                    {
                         break;
+                    }
+
                     DialogResult res = MessageBox.Show(err, "Error", MessageBoxButtons.RetryCancel);
                     if (res != DialogResult.Retry)
+                    {
                         break;
+                    }
                 }
             }
             finally
             {
-                status.Hide();
-                status.Visible = false;
+                this.status.Hide();
+                this.status.Visible = false;
             }
         }
 
@@ -289,49 +310,59 @@ namespace PdfMerge
         {
             string v = Program.GetViewer();
             if (v.Length == 0)
-                System.Diagnostics.Process.Start("\"" + outBox.Text + "\"");
+            {
+                System.Diagnostics.Process.Start("\"" + this.outBox.Text + "\"");
+            }
             else
-                System.Diagnostics.Process.Start(v, "\"" + outBox.Text + "\"");
+            {
+                System.Diagnostics.Process.Start(v, "\"" + this.outBox.Text + "\"");
+            }
         }
 
         private void UpdateFromGrid()
         {
-            dataGrid.EndEdit();
-            merger.MergeListFileArray = new List<MergeListFiles>();
-            foreach (DataGridViewRow row in dataGrid.Rows)
+            this.dataGrid.EndEdit();
+            this.merger.MergeListFileArray = new List<MergeListFiles>();
+            foreach (DataGridViewRow row in this.dataGrid.Rows)
             {
-                MergeListFiles MergeItem = new MergeListFiles();
+                MergeListFiles mergeItem = new MergeListFiles();
 
-                MergeItem.Path = row.Cells[1].Value.ToString();
+                mergeItem.Path = row.Cells[1].Value.ToString();
 
-                MergeItem.Pages = row.Cells[2].Value.ToString();
+                mergeItem.Pages = row.Cells[2].Value.ToString();
 
                 if (row.Cells[3].Value != null)
+                {
                     if (row.Cells[3].Value.ToString().Length > 0)
-                        MergeItem.Bookmark = row.Cells[3].Value.ToString();
+                    {
+                        mergeItem.Bookmark = row.Cells[3].Value.ToString();
+                    }
+                }
 
                 DataGridViewCheckBoxCell check = (DataGridViewCheckBoxCell)row.Cells[4];
                 if ((bool)check.Value == false)
-                    MergeItem.Include = false;
+                {
+                    mergeItem.Include = false;
+                }
 
                 DataGridViewComboBoxCell combo = (DataGridViewComboBoxCell)row.Cells[5];
-                MergeItem.Level = combo.Items.IndexOf(row.Cells[5].Value);
+                mergeItem.Level = combo.Items.IndexOf(row.Cells[5].Value);
 
-                merger.MergeListFileArray.Add(MergeItem);
+                this.merger.MergeListFileArray.Add(mergeItem);
             }
 
-            merger.MergeListInfo.OutFilename = outBox.Text;
-            merger.MergeListInfo.NumberPages = checkBoxNumberPages.Checked;
+            this.merger.MergeListInfo.OutFilename = this.outBox.Text;
+            this.merger.MergeListInfo.NumberPages = this.checkBoxNumberPages.Checked;
             try
             {
-                merger.MergeListInfo.StartPage = int.Parse(textBoxStartPage.Text);
+                this.merger.MergeListInfo.StartPage = int.Parse(this.textBoxStartPage.Text);
             }
             catch
             {
-                merger.MergeListInfo.StartPage = 1;
+                this.merger.MergeListInfo.StartPage = 1;
             }
-            merger.MergeListInfo.Annotation = textBoxAnnotate.Text;
 
+            this.merger.MergeListInfo.Annotation = this.textBoxAnnotate.Text;
         }
 
         private void PdfViewerSelect_Click(object sender, EventArgs e)
@@ -339,135 +370,159 @@ namespace PdfMerge
             Program.PdfViewerSelect();
         }
 
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string s = Application.ProductName + "\nVersion:" + Application.ProductVersion;
-            MessageBox.Show(this, s, "About PDF Merge", MessageBoxButtons.OK
-                , MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            MessageBox.Show(
+                this,
+                s,
+                "About PDF Merge",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
         private List<int> GetSelected()
         {
-            List<int> Selected = new List<int>();
-            foreach (DataGridViewRow row in dataGrid.SelectedRows)
-                Selected.Add(row.Index);
-            Selected.Sort();
-            return Selected;
+            List<int> selected = new List<int>();
+            foreach (DataGridViewRow row in this.dataGrid.SelectedRows)
+            {
+                selected.Add(row.Index);
+            }
+
+            selected.Sort();
+            return selected;
         }
 
-        private void buttonRemove_Click(object sender, EventArgs e)
+        private void ButtonRemove_Click(object sender, EventArgs e)
         {
-            if (dataGrid.SelectedRows.Count == 0)
+            if (this.dataGrid.SelectedRows.Count == 0)
+            {
                 return;
+            }
 
-            UpdateFromGrid();
+            this.UpdateFromGrid();
 
             // get selected
-            List<int> Selected = GetSelected();
+            List<int> selected = this.GetSelected();
 
             // delete from bottom
-            for (int sel_ind = Selected.Count - 1; sel_ind >= 0; --sel_ind)
+            for (int sel_ind = selected.Count - 1; sel_ind >= 0; --sel_ind)
             {
-                int irow = Selected[sel_ind];
-                merger.MergeListFileArray.RemoveAt(irow);
+                int irow = selected[sel_ind];
+                this.merger.MergeListFileArray.RemoveAt(irow);
             }
 
-            UpdateGrid();
+            this.UpdateGrid();
 
-            dataGrid.ClearSelection();
+            this.dataGrid.ClearSelection();
         }
 
-        private void buttonUp_Click(object sender, EventArgs e)
+        private void ButtonUp_Click(object sender, EventArgs e)
         {
-            if (dataGrid.SelectedRows.Count == 0)
+            if (this.dataGrid.SelectedRows.Count == 0)
+            {
                 return;
+            }
 
-            UpdateFromGrid();
+            this.UpdateFromGrid();
 
             // get selected
-            List<int> Selected = GetSelected();
+            List<int> selected = this.GetSelected();
 
             // ignore if first row selected
-            if (Selected[0] == 0)
+            if (selected[0] == 0)
+            {
                 return;
+            }
 
             // move up from top
-            for (int sel_ind = 0; sel_ind < Selected.Count; ++sel_ind)
+            for (int sel_ind = 0; sel_ind < selected.Count; ++sel_ind)
             {
-                int irow = Selected[sel_ind];
-                MergeListFiles SelectedItem = (MergeListFiles)merger.MergeListFileArray[irow].Clone();
-                merger.MergeListFileArray.RemoveAt(irow);
-                merger.MergeListFileArray.Insert(irow - 1, SelectedItem);
+                int irow = selected[sel_ind];
+                MergeListFiles selectedItem = (MergeListFiles)this.merger.MergeListFileArray[irow].Clone();
+                this.merger.MergeListFileArray.RemoveAt(irow);
+                this.merger.MergeListFileArray.Insert(irow - 1, selectedItem);
             }
 
-            UpdateGrid();
+            this.UpdateGrid();
 
             // restore selections
-            dataGrid.ClearSelection();
-            foreach (int irow in Selected)
-                dataGrid.Rows[irow - 1].Selected = true;
+            this.dataGrid.ClearSelection();
+            foreach (int irow in selected)
+            {
+                this.dataGrid.Rows[irow - 1].Selected = true;
+            }
         }
 
-        private void buttonDown_Click(object sender, EventArgs e)
+        private void ButtonDown_Click(object sender, EventArgs e)
         {
-            if (dataGrid.SelectedRows.Count == 0)
+            if (this.dataGrid.SelectedRows.Count == 0)
+            {
                 return;
+            }
 
-            UpdateFromGrid();
+            this.UpdateFromGrid();
 
             // get selected
-            List<int> Selected = GetSelected();
+            List<int> selected = this.GetSelected();
 
             // ignore if last row selected
-            if (Selected[Selected.Count - 1] >= (dataGrid.Rows.Count - 1))
+            if (selected[selected.Count - 1] >= (this.dataGrid.Rows.Count - 1))
+            {
                 return;
+            }
 
             // move up from bottom
-            for (int sel_ind = Selected.Count - 1; sel_ind >= 0; --sel_ind)
+            for (int sel_ind = selected.Count - 1; sel_ind >= 0; --sel_ind)
             {
-                int irow = Selected[sel_ind];
-                MergeListFiles SelectedItem = (MergeListFiles)merger.MergeListFileArray[irow].Clone();
-                merger.MergeListFileArray.RemoveAt(irow);
-                merger.MergeListFileArray.Insert(irow + 1, SelectedItem);
+                int irow = selected[sel_ind];
+                MergeListFiles selectedItem = (MergeListFiles)this.merger.MergeListFileArray[irow].Clone();
+                this.merger.MergeListFileArray.RemoveAt(irow);
+                this.merger.MergeListFileArray.Insert(irow + 1, selectedItem);
             }
 
-            UpdateGrid();
+            this.UpdateGrid();
 
             // restore selections
-            dataGrid.ClearSelection();
-            foreach (int irow in Selected)
-                dataGrid.Rows[irow + 1].Selected = true;
+            this.dataGrid.ClearSelection();
+            foreach (int irow in selected)
+            {
+                this.dataGrid.Rows[irow + 1].Selected = true;
+            }
         }
 
-        private void buttonEdit_Click(object sender, EventArgs e)
+        private void ButtonEdit_Click(object sender, EventArgs e)
         {
-            if (dataGrid.SelectedRows.Count == 0)
+            if (this.dataGrid.SelectedRows.Count == 0)
+            {
                 return;
+            }
 
-            UpdateFromGrid();
+            this.UpdateFromGrid();
 
             // get selected
-            List<int> Selected = GetSelected();
+            List<int> selected = this.GetSelected();
 
             // ignore if last row selected
-            //if (Selected[Selected.Count - 1] >= (dataGrid.Rows.Count - 1))
+            // if (Selected[Selected.Count - 1] >= (dataGrid.Rows.Count - 1))
             //    return;
-
             string v = Program.GetViewer();
 
             List<string> notFound = new List<string>();
-            // move up from bottom
-            for (int sel_ind = Selected.Count - 1; sel_ind >= 0; --sel_ind)
-            {
-                int irow = Selected[sel_ind];
-                MergeListFiles SelectedItem = (MergeListFiles)merger.MergeListFileArray[irow].Clone();
 
-                string fn = SelectedItem.Path;
+            // move up from bottom
+            for (int sel_ind = selected.Count - 1; sel_ind >= 0; --sel_ind)
+            {
+                int irow = selected[sel_ind];
+                MergeListFiles selectedItem = (MergeListFiles)this.merger.MergeListFileArray[irow].Clone();
+
+                string fn = selectedItem.Path;
 
                 if (File.Exists(fn) == false)
                 {
@@ -489,59 +544,72 @@ namespace PdfMerge
             {
                 string err = string.Format("{0} file(s) were not found:", notFound.Count);
                 foreach (string fn in notFound)
+                {
                     err += "\n" + fn;
+                }
+
                 MessageBox.Show(err, "Error", MessageBoxButtons.OK);
             }
         }
 
         private void PdfMergeForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            mruMenu.SaveToRegistry();
+            this.mruMenu.SaveToRegistry();
         }
 
-        private void buttonSaveTo_Click(object sender, EventArgs e)
+        private void ButtonSaveTo_Click(object sender, EventArgs e)
         {
             SaveFileDialog dlg = new SaveFileDialog();
 
-            dlg.FileName = outBox.Text;
+            dlg.FileName = this.outBox.Text;
             dlg.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
             dlg.FilterIndex = 1;
             dlg.RestoreDirectory = true;
 
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                outBox.Text = dlg.FileName;
+                this.outBox.Text = dlg.FileName;
             }
+
             dlg.Dispose();
         }
 
-        private void dataGrid_DragDrop(object sender, DragEventArgs e)
+        private void DataGrid_DragDrop(object sender, DragEventArgs e)
         {
-            UpdateFromGrid();
+            this.UpdateFromGrid();
 
             string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
             foreach (string fn in files)
             {
                 if (fn.ToLower().EndsWith(".pdf") == true)
                 {
-                    MergeListFiles MergeListItem = new MergeListFiles();
-                    if (merger.MergeListFileArray.Count > 0)
-                        MergeListItem.Level = merger.MergeListFileArray[merger.MergeListFileArray.Count - 1].Level;
-                    MergeListItem.Path = fn;
-                    merger.MergeListFileArray.Add(MergeListItem);
+                    MergeListFiles mergeListItem = new MergeListFiles();
+                    if (this.merger.MergeListFileArray.Count > 0)
+                    {
+                        mergeListItem.Level = this.merger.MergeListFileArray[this.merger.MergeListFileArray.Count - 1].Level;
+                    }
+
+                    mergeListItem.Path = fn;
+                    this.merger.MergeListFileArray.Add(mergeListItem);
                 }
             }
-            UpdateGrid();
+
+            this.UpdateGrid();
         }
 
-        private void dataGrid_DragOver(object sender, DragEventArgs e)
+        private void DataGrid_DragOver(object sender, DragEventArgs e)
         {
             string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
-            bool Allow = false;
+            bool allow = false;
             foreach (string fn in files)
+            {
                 if (fn.ToLower().EndsWith(".pdf") == true)
-                    Allow = true;
-            if (e.Data.GetData(DataFormats.FileDrop) != null && Allow == true)
+                {
+                    allow = true;
+                }
+            }
+
+            if (e.Data.GetData(DataFormats.FileDrop) != null && allow == true)
             {
                 e.Effect = DragDropEffects.Copy;
             }
@@ -551,25 +619,27 @@ namespace PdfMerge
             }
         }
 
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UpdateGrid();
+            this.UpdateGrid();
         }
 
-        private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SelectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // restore selections
-            dataGrid.ClearSelection();
-            foreach (DataGridViewRow row in dataGrid.Rows)
+            this.dataGrid.ClearSelection();
+            foreach (DataGridViewRow row in this.dataGrid.Rows)
+            {
                 row.Selected = true;
+            }
         }
 
-        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void ExitToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Close();
+            this.Close();
         }
 
-        private void contentsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ContentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string v = Program.GetViewer();
             string fn = Path.Combine(Application.StartupPath, "readme.pdf");
@@ -584,27 +654,27 @@ namespace PdfMerge
             }
         }
 
-        private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CustomizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            InfoForm infodlg = new InfoForm(ref merger.MergeListInfo);
+            InfoForm infodlg = new InfoForm(this.merger.MergeListInfo);
             infodlg.ShowDialog();
         }
 
-        private void dataGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
+        private void DataGrid_CurrentCellDirtyStateChanged(object sender, EventArgs e)
         {
-            if (dataGrid.CurrentCell.ColumnIndex == 5)
+            if (this.dataGrid.CurrentCell.ColumnIndex == 5)
             {
-                int r = dataGrid.CurrentRow.Index;
-                DataGridViewComboBoxCell combo = (DataGridViewComboBoxCell)dataGrid.Rows[r].Cells[5];
-                int Level = combo.Items.IndexOf(dataGrid.Rows[r].Cells[5].Value);
-                dataGrid.Rows[r].Cells[0].Style = rowcolors[Level].style;
-                dataGrid.Rows[r].Cells[0].Value = rowcolors[Level].GetItemString(r);
+                int r = this.dataGrid.CurrentRow.Index;
+                DataGridViewComboBoxCell combo = (DataGridViewComboBoxCell)this.dataGrid.Rows[r].Cells[5];
+                int level = combo.Items.IndexOf(this.dataGrid.Rows[r].Cells[5].Value);
+                this.dataGrid.Rows[r].Cells[0].Style = this.rowcolors[level].Style;
+                this.dataGrid.Rows[r].Cells[0].Value = this.rowcolors[level].GetItemString(r);
             }
         }
 
-        private void copyFilenamesToBookmarksToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CopyFilenamesToBookmarksToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dataGrid.Rows)
+            foreach (DataGridViewRow row in this.dataGrid.Rows)
             {
                 try
                 {
@@ -621,18 +691,18 @@ namespace PdfMerge
         #region Right click context menu in grid
         private void DuplicateRow(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dataGrid.Rows)
+            foreach (DataGridViewRow row in this.dataGrid.Rows)
             {
                 if (row.Selected == true)
                 {
                     try
                     {
                         int sel = row.Index;
-                        UpdateFromGrid();
-                        MergeListFiles MergeListItem = merger.MergeListFileArray[row.Index];
-                        merger.MergeListFileArray.Add(MergeListItem);
-                        UpdateGrid();
-                        dataGrid.Rows[sel].Selected = true;
+                        this.UpdateFromGrid();
+                        MergeListFiles mergeListItem = this.merger.MergeListFileArray[row.Index];
+                        this.merger.MergeListFileArray.Add(mergeListItem);
+                        this.UpdateGrid();
+                        this.dataGrid.Rows[sel].Selected = true;
                         return;
                     }
                     catch
@@ -644,7 +714,7 @@ namespace PdfMerge
 
         private void CopyFileNameToBookMark(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in dataGrid.Rows)
+            foreach (DataGridViewRow row in this.dataGrid.Rows)
             {
                 if (row.Selected == true)
                 {
@@ -661,51 +731,27 @@ namespace PdfMerge
             }
         }
 
-        private void dataGrid_MouseUp(object sender, MouseEventArgs e)
+        private void DataGrid_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
-                DataGridView.HitTestInfo hitTestInfo = dataGrid.HitTest(e.X, e.Y);
+                DataGridView.HitTestInfo hitTestInfo = this.dataGrid.HitTest(e.X, e.Y);
                 if (hitTestInfo.Type == DataGridViewHitTestType.Cell && hitTestInfo.ColumnIndex != 3)
                 {
                     int rowindex = hitTestInfo.RowIndex;
-                    foreach (DataGridViewRow row in dataGrid.Rows)
+                    foreach (DataGridViewRow row in this.dataGrid.Rows)
+                    {
                         row.Selected = row.Index == rowindex;
+                    }
 
                     ContextMenu cm = new ContextMenu();
-                    cm.MenuItems.Add("Duplicate Row at End", new EventHandler(DuplicateRow));
-                    cm.MenuItems.Add("Copy Filename to Bookmark", new EventHandler(CopyFileNameToBookMark));
-                    cm.Show(dataGrid, new Point(e.X, e.Y));
+                    cm.MenuItems.Add("Duplicate Row at End", new EventHandler(this.DuplicateRow));
+                    cm.MenuItems.Add("Copy Filename to Bookmark", new EventHandler(this.CopyFileNameToBookMark));
+                    cm.Show(this.dataGrid, new Point(e.X, e.Y));
                 }
             }
         }
         #endregion
 
     }
-        
-            
-
-    internal class ItemLevel
-    {
-        internal ItemLevel(Color color,int _index)
-        {
-            style.BackColor = color;
-            style.SelectionBackColor = color;
-            style.SelectionForeColor = Color.Black;
-            index = _index;
-        }
-
-        internal DataGridViewCellStyle style = new DataGridViewCellStyle();
-        int index=0;
-
-        internal string GetItemString(int rowindex)
-        {
-                string s = "..................................";
-                int ndots = index;
-                if (ndots > 7)
-                    ndots = 7;
-                return s.Substring(0, ndots) + (rowindex + 1).ToString();
-        }
-    }
-
 }

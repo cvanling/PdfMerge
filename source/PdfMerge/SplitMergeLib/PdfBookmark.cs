@@ -1,17 +1,17 @@
-//=============================================================================
-// Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark 
-// importing. 
+// =============================================================================
+// Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark
+// importing.
 //
 // Uses PdfSharp library (http://www.pdfsharp.net).
 //
-// Also uses version 4.1.6 of the iTextSharp library 
+// Also uses version 4.1.6 of the iTextSharp library
 // (http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/)
-// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.  
+// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.
 // See the readme.doc file included with this package.
-//=============================================================================
+// =============================================================================
 // File: PdfBookmark.cs
 // Description: Class for adding PDF bookmarks
-//=============================================================================
+// =============================================================================
 // Authors:
 //   Charles Van Lingen <mailto:charles.vanlingen@gmail.com>
 //
@@ -34,108 +34,127 @@
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //
-//=============================================================================
+// =============================================================================
 //
 // Revision History:
 //
-//   1.0 Jan  1/2008 C. Van Lingen  (V1.17) Replaced merge tool with PDF sharp 
+//   1.0 Jan  1/2008 C. Van Lingen  (V1.17) Replaced merge tool with PDF sharp
 //                                  (handles up to version 1.6 PDF formats)
-//=============================================================================
-using System;
-using System.Collections;
-using System.IO;
-
+// =============================================================================
 namespace PdfMerge.SplitMergeLib
 {
-	/// <summary>
-	/// Multi-level class to contain a bookmark tree list
-	/// </summary>
-	public class PdfBookmark
-	{
-		protected static int outline_obj;
-		protected static int obj_count;
+    using System;
+    using System.Collections;
+    using System.IO;
 
-		protected int level;
-		protected int PageIndex;
-		protected string Title;
-		protected Stream PdfStream;
+    /// <summary>
+    /// Multi-level class to contain a bookmark tree list
+    /// </summary>
+    public class PdfBookmark
+    {
+        private static int objCount;
 
-		protected PdfBookmark Parent;
-		protected PdfBookmark Prev;
-		protected PdfBookmark Next;
+        private int level;
+        private int pageIndex;
+        private string title;
 
-		protected ArrayList BookmarkObjects;
+        private PdfBookmark parent;
+        private PdfBookmark prev;
+        private PdfBookmark next;
 
-		public PdfBookmark(int create_at_level)
-		{
-			level = create_at_level;
-			BookmarkObjects = new ArrayList();
-			if (level==0) 
-				obj_count=0;
-			else 
-				++obj_count;
-		}
+        private ArrayList bookmarkObjects;
 
-		public void Clear()
-		{
-			if (level !=0)
-				throw new Exception("Clear cannot be called at sublevel of bookmark class");
-			BookmarkObjects.Clear();
-			BookmarkObjects = new ArrayList();
-			obj_count=0;
-		}
+        public PdfBookmark(int create_at_level)
+        {
+            this.level = create_at_level;
+            this.bookmarkObjects = new ArrayList();
+            if (this.level == 0)
+            {
+                objCount = 0;
+            }
+            else
+            {
+                ++objCount;
+            }
+        }
 
-		public int GetCount()
-		{
-			return obj_count;
-		}
+        public void Clear()
+        {
+            if (this.level != 0)
+            {
+                throw new Exception("Clear cannot be called at sublevel of bookmark class");
+            }
 
-		public int AddBookmark(string Title, int page, int add_at_level)
-		{
-			if (add_at_level==level) 
-			{
-				// add to this object
-				BookmarkObjects.Add(new PdfBookmark(level+1));
-				PdfBookmark mark = BookmarkObjects[BookmarkObjects.Count-1] as PdfBookmark;
-				mark.PageIndex=page-1;
-				mark.Title=Title.Replace(">","");
-				mark.Title=mark.Title.Replace("(","");
-				mark.Title=mark.Title.Replace(")","");
-				mark.Parent=this;
-				if (BookmarkObjects.Count>1)
-					mark.Prev=BookmarkObjects[BookmarkObjects.Count-2] as PdfBookmark;
-				if (mark.Prev != null)
-					mark.Prev.Next=mark;
-			}
-			else 
-			{
-				// add to a sub object
-				if (BookmarkObjects.Count==0) 
-					throw new Exception("Bookmark hierarchy is invalid");
-				PdfBookmark mark = BookmarkObjects[BookmarkObjects.Count-1] as PdfBookmark;
-				mark.AddBookmark(Title,page, add_at_level);
-			}
-			return GetCount();
-		}
+            this.bookmarkObjects.Clear();
+            this.bookmarkObjects = new ArrayList();
+            objCount = 0;
+        }
+
+        public int GetCount()
+        {
+            return objCount;
+        }
+
+        public int AddBookmark(string title, int page, int add_at_level)
+        {
+            if (add_at_level == this.level)
+            {
+                // add to this object
+                this.bookmarkObjects.Add(new PdfBookmark(this.level + 1));
+                PdfBookmark mark = this.bookmarkObjects[this.bookmarkObjects.Count - 1] as PdfBookmark;
+                mark.pageIndex = page - 1;
+                mark.title = title.Replace(">", string.Empty);
+                mark.title = mark.title.Replace("(", string.Empty);
+                mark.title = mark.title.Replace(")", string.Empty);
+                mark.parent = this;
+                if (this.bookmarkObjects.Count > 1)
+                {
+                    mark.prev = this.bookmarkObjects[this.bookmarkObjects.Count - 2] as PdfBookmark;
+                }
+
+                if (mark.prev != null)
+                {
+                    mark.prev.next = mark;
+                }
+            }
+            else
+            {
+                // add to a sub object
+                if (this.bookmarkObjects.Count == 0)
+                {
+                    throw new Exception("Bookmark hierarchy is invalid");
+                }
+
+                PdfBookmark mark = this.bookmarkObjects[this.bookmarkObjects.Count - 1] as PdfBookmark;
+                mark.AddBookmark(title, page, add_at_level);
+            }
+
+            return this.GetCount();
+        }
 
         public void WriteToDoc(ref PdfSharp.Pdf.PdfOutline outline, ref PdfSharp.Pdf.PdfDocument pdfDoc, int startPage)
         {
             PdfSharp.Pdf.PdfOutline sub = null;
-            if (this.Title != null)
+            if (this.title != null)
             {
                 if (outline == null)
-                    sub = pdfDoc.Outlines.Add(this.Title, pdfDoc.Pages[startPage + this.PageIndex]);
+                {
+                    sub = pdfDoc.Outlines.Add(this.title, pdfDoc.Pages[startPage + this.pageIndex]);
+                }
                 else
-                    sub = outline.Outlines.Add(this.Title, pdfDoc.Pages[startPage + this.PageIndex]);
+                {
+                    sub = outline.Outlines.Add(this.title, pdfDoc.Pages[startPage + this.pageIndex]);
+                }
             }
 
             // command all subobjects to write as well
-            foreach (PdfBookmark bm in this.BookmarkObjects)
+            foreach (PdfBookmark bm in this.bookmarkObjects)
+            {
                 bm.WriteToDoc(ref sub, ref pdfDoc, startPage);
+            }
         }
-
-	}
+    }
 }

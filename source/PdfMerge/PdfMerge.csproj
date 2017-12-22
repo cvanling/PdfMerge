@@ -69,7 +69,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>PdfMerge.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -93,7 +93,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>PdfMerge.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
@@ -136,6 +136,7 @@
     <Compile Include="InfoForm.Designer.cs">
       <DependentUpon>InfoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ItemLevel.cs" />
     <Compile Include="MruStripMenu.cs" />
     <Compile Include="PdfMergeForm.cs">
       <SubType>Form</SubType>
@@ -148,6 +149,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SplitMergeLib\MergeListFiles.cs" />
+    <Compile Include="SplitMergeLib\MergeListInfoDefn.cs" />
     <Compile Include="Utils\FindCommonDirectoryPath.cs" />
     <Compile Include="SplitMergeLib\PdfBookmark.cs">
       <SubType>Code</SubType>
@@ -202,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="PdfMerge.ruleset" />
     <None Include="readme.doc" />
     <Content Include="readme.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -211,6 +215,10 @@
     </None>
     <None Include="packages.config" />
     <None Include="to do list.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

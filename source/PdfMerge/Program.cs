@@ -1,17 +1,17 @@
-//=============================================================================
-// Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark 
-// importing. 
+// =============================================================================
+// Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark
+// importing.
 //
 // Uses PdfSharp library (http://www.pdfsharp.net).
 //
-// Also uses version 4.1.6 of the iTextSharp library 
+// Also uses version 4.1.6 of the iTextSharp library
 // (http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/)
-// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.  
+// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.
 // See the readme.doc file included with this package.
-//=============================================================================
+// =============================================================================
 // File: Program.cs
 // Description: PdfMerge top level class
-//=============================================================================
+// =============================================================================
 // Authors:
 //   Charles Van Lingen <mailto:charles.vanlingen@gmail.com>
 //
@@ -34,55 +34,56 @@
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //
-//=============================================================================
+// =============================================================================
 //
 // Revision History:
 //
 //   1.1 Jul 30/2008 C. Van Lingen  (V1.18) Added XML command file support and improved
 //                                  GUI
-//   1.0 Jan  1/2008 C. Van Lingen  (V1.17) Initial Release 
+//   1.0 Jan  1/2008 C. Van Lingen  (V1.17) Initial Release
 //
-//=============================================================================
-
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.IO;
-using System.Text.RegularExpressions;
-using Microsoft.Win32;
-
-using PdfMerge.SplitMergeLib;
+// =============================================================================
 
 namespace PdfMerge
 {
-    class Program
+    using System;
+    using System.Windows.Forms;
+    using Microsoft.Win32;
+    using PdfMerge.SplitMergeLib;
+
+    public class Program
     {
-        public static string mruRegKey = "SOFTWARE\\PDFMERGE\\PdfMerge";
+        public static string MruRegKey
+        {
+            get
+            {
+                return "SOFTWARE\\PDFMERGE\\PdfMerge";
+            }
+        }
 
         [STAThread]
-        static void Main()
+        public static void Main()
         {
-            String[] arguments = Environment.GetCommandLineArgs();
+            string[] arguments = Environment.GetCommandLineArgs();
             if (arguments.Length > 2)
             {
             DoAgain1:
                 SplitMergeCmdFile splitmerge = new SplitMergeCmdFile();
                 string cmdfile = arguments[1];
                 string outfile = arguments[2];
-                String err = splitmerge.DoSplitMerge(cmdfile, outfile);
+                string err = splitmerge.DoSplitMerge(cmdfile, outfile);
                 if (err.Length > 0)
                 {
                     DialogResult res = MessageBox.Show(err, "Error", MessageBoxButtons.RetryCancel);
                     if (res == DialogResult.Retry)
+                    {
                         goto DoAgain1;
+                    }
                 }
+
                 if (arguments.Length == 4)
                 {
                     if (err.Length == 0 && arguments[3].ToUpper() == "/SHOWPDF")
@@ -98,9 +99,11 @@ namespace PdfMerge
                         }
                     }
                 }
+
                 Application.Exit();
                 return;
             }
+
             PdfMergeForm merge = new PdfMergeForm();
             Application.Run(merge);
         }
@@ -109,7 +112,10 @@ namespace PdfMerge
         {
             string retval = LoadFromRegistry("PdfViewer");
             if (retval == null)
-                retval = "";
+            {
+                retval = string.Empty;
+            }
+
             return retval;
         }
 
@@ -130,29 +136,33 @@ namespace PdfMerge
 
         public static void SaveToRegistry(string key, string value)
         {
-            RegistryKey regKey = Registry.CurrentUser.CreateSubKey(mruRegKey);
+            RegistryKey regKey = Registry.CurrentUser.CreateSubKey(MruRegKey);
             if (regKey != null)
             {
-                regKey.SetValue(key,value);
+                regKey.SetValue(key, value);
                 regKey.Close();
             }
         }
 
         public static string LoadFromRegistry(string key)
         {
-            RegistryKey regKey = Registry.CurrentUser.OpenSubKey(mruRegKey);
+            RegistryKey regKey = Registry.CurrentUser.OpenSubKey(MruRegKey);
             string result = null;
             if (regKey != null)
             {
-                result = (string)regKey.GetValue(key, "");
+                result = (string)regKey.GetValue(key, string.Empty);
                 regKey.Close();
             }
+
             if (result != null)
+            {
                 if (result.Length == 0)
+                {
                     result = null;
+                }
+            }
+
             return result;
         }
-
-
     }
 }

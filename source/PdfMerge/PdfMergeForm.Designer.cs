@@ -144,7 +144,7 @@
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
             this.newToolStripMenuItem.Size = new System.Drawing.Size(314, 46);
             this.newToolStripMenuItem.Text = "&New";
-            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // openToolStripMenuItem1
             // 
@@ -154,7 +154,7 @@
             this.openToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem1.Size = new System.Drawing.Size(314, 46);
             this.openToolStripMenuItem1.Text = "&Open";
-            this.openToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.openToolStripMenuItem1.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // toolStripSeparator
             // 
@@ -199,7 +199,7 @@
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
             this.exitToolStripMenuItem1.Size = new System.Drawing.Size(314, 46);
             this.exitToolStripMenuItem1.Text = "E&xit";
-            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
+            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.ExitToolStripMenuItem1_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -219,7 +219,7 @@
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.undoToolStripMenuItem.Size = new System.Drawing.Size(308, 46);
             this.undoToolStripMenuItem.Text = "&Undo";
-            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
+            this.undoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
@@ -234,7 +234,7 @@
             this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
             this.cutToolStripMenuItem.Size = new System.Drawing.Size(308, 46);
             this.cutToolStripMenuItem.Text = "Cu&t";
-            this.cutToolStripMenuItem.Click += new System.EventHandler(this.buttonRemove_Click);
+            this.cutToolStripMenuItem.Click += new System.EventHandler(this.ButtonRemove_Click);
             // 
             // toolStripSeparator6
             // 
@@ -246,7 +246,7 @@
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
             this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(308, 46);
             this.selectAllToolStripMenuItem.Text = "Select &All";
-            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.selectAllToolStripMenuItem_Click);
+            this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.SelectAllToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
@@ -263,7 +263,7 @@
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
             this.customizeToolStripMenuItem.Size = new System.Drawing.Size(574, 46);
             this.customizeToolStripMenuItem.Text = "PDF Annotations";
-            this.customizeToolStripMenuItem.Click += new System.EventHandler(this.customizeToolStripMenuItem_Click);
+            this.customizeToolStripMenuItem.Click += new System.EventHandler(this.CustomizeToolStripMenuItem_Click);
             // 
             // pDToolStripMenuItem
             // 
@@ -277,7 +277,7 @@
             this.copyFilenamesToBookmarksToolStripMenuItem.Name = "copyFilenamesToBookmarksToolStripMenuItem";
             this.copyFilenamesToBookmarksToolStripMenuItem.Size = new System.Drawing.Size(574, 46);
             this.copyFilenamesToBookmarksToolStripMenuItem.Text = "Copy All Filenames to Bookmarks";
-            this.copyFilenamesToBookmarksToolStripMenuItem.Click += new System.EventHandler(this.copyFilenamesToBookmarksToolStripMenuItem_Click);
+            this.copyFilenamesToBookmarksToolStripMenuItem.Click += new System.EventHandler(this.CopyFilenamesToBookmarksToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -294,7 +294,7 @@
             this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
             this.contentsToolStripMenuItem.Size = new System.Drawing.Size(252, 46);
             this.contentsToolStripMenuItem.Text = "&Contents";
-            this.contentsToolStripMenuItem.Click += new System.EventHandler(this.contentsToolStripMenuItem_Click);
+            this.contentsToolStripMenuItem.Click += new System.EventHandler(this.ContentsToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
@@ -306,7 +306,7 @@
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
             this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(252, 46);
             this.aboutToolStripMenuItem1.Text = "&About...";
-            this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
@@ -318,7 +318,7 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(40, 48);
             this.toolStripMenuItem1.Text = "&New";
             this.toolStripMenuItem1.ToolTipText = "New List";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
             // toolStripButton1
             // 
@@ -329,7 +329,7 @@
             this.toolStripButton1.Size = new System.Drawing.Size(32, 45);
             this.toolStripButton1.Text = "&Open";
             this.toolStripButton1.ToolTipText = "Open List";
-            this.toolStripButton1.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            this.toolStripButton1.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // toolStripButton2
             // 
@@ -351,7 +351,7 @@
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(32, 45);
             this.toolStripButton3.Text = "He&lp";
-            this.toolStripButton3.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.toolStripButton3.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -399,7 +399,7 @@
             this.buttonRemove.Size = new System.Drawing.Size(106, 96);
             this.buttonRemove.TabIndex = 19;
             this.toolTip1.SetToolTip(this.buttonRemove, "Delete selected rows");
-            this.buttonRemove.Click += new System.EventHandler(this.buttonRemove_Click);
+            this.buttonRemove.Click += new System.EventHandler(this.ButtonRemove_Click);
             // 
             // buttonEdit
             // 
@@ -413,7 +413,7 @@
             this.buttonEdit.Text = "View";
             this.toolTip1.SetToolTip(this.buttonEdit, "View selected PDF");
             this.buttonEdit.UseVisualStyleBackColor = false;
-            this.buttonEdit.Click += new System.EventHandler(this.buttonEdit_Click);
+            this.buttonEdit.Click += new System.EventHandler(this.ButtonEdit_Click);
             // 
             // buttonDown
             // 
@@ -428,7 +428,7 @@
             this.buttonDown.Size = new System.Drawing.Size(106, 96);
             this.buttonDown.TabIndex = 18;
             this.toolTip1.SetToolTip(this.buttonDown, "Move selected rows down");
-            this.buttonDown.Click += new System.EventHandler(this.buttonDown_Click);
+            this.buttonDown.Click += new System.EventHandler(this.ButtonDown_Click);
             // 
             // buttonUp
             // 
@@ -442,7 +442,7 @@
             this.buttonUp.Size = new System.Drawing.Size(106, 96);
             this.buttonUp.TabIndex = 20;
             this.toolTip1.SetToolTip(this.buttonUp, "Move selected rows up");
-            this.buttonUp.Click += new System.EventHandler(this.buttonUp_Click);
+            this.buttonUp.Click += new System.EventHandler(this.ButtonUp_Click);
             // 
             // panel2
             // 
@@ -554,7 +554,7 @@
             this.buttonPickFile.TabIndex = 9;
             this.buttonPickFile.Text = "Add Files";
             this.toolTip1.SetToolTip(this.buttonPickFile, "Add files from here or drag and drop onto form");
-            this.buttonPickFile.Click += new System.EventHandler(this.buttonPickFile_Click);
+            this.buttonPickFile.Click += new System.EventHandler(this.ButtonPickFile_Click);
             // 
             // ViewLast
             // 
@@ -618,7 +618,7 @@
             this.buttonSelectSaveTo.TabIndex = 6;
             this.buttonSelectSaveTo.Text = "...";
             this.toolTip1.SetToolTip(this.buttonSelectSaveTo, "Show file dialog to specify output filename");
-            this.buttonSelectSaveTo.Click += new System.EventHandler(this.buttonSaveTo_Click);
+            this.buttonSelectSaveTo.Click += new System.EventHandler(this.ButtonSaveTo_Click);
             // 
             // outBox
             // 
@@ -682,10 +682,10 @@
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid.Size = new System.Drawing.Size(1938, 947);
             this.dataGrid.TabIndex = 0;
-            this.dataGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.dataGrid_CurrentCellDirtyStateChanged);
-            this.dataGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.dataGrid_DragDrop);
-            this.dataGrid.DragOver += new System.Windows.Forms.DragEventHandler(this.dataGrid_DragOver);
-            this.dataGrid.MouseUp += new System.Windows.Forms.MouseEventHandler(this.dataGrid_MouseUp);
+            this.dataGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.DataGrid_CurrentCellDirtyStateChanged);
+            this.dataGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.DataGrid_DragDrop);
+            this.dataGrid.DragOver += new System.Windows.Forms.DragEventHandler(this.DataGrid_DragOver);
+            this.dataGrid.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DataGrid_MouseUp);
             // 
             // Column1
             // 

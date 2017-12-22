@@ -1,17 +1,17 @@
-//=============================================================================
-// Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark 
-// importing. 
+// =============================================================================
+// Project: PdfMerge - An Open Source Pdf Splitter/Merger with bookmark
+// importing.
 //
 // Uses PdfSharp library (http://www.pdfsharp.net).
 //
-// Also uses version 4.1.6 of the iTextSharp library 
+// Also uses version 4.1.6 of the iTextSharp library
 // (http://itextsharp.svn.sourceforge.net/viewvc/itextsharp/tags/iTextSharp_4_1_6/)
-// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.  
+// iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.
 // See the readme.doc file included with this package.
-//=============================================================================
+// =============================================================================
 // File: SplitMergeCmdFile.cs
 // Description: Top level class for merge/split from a command file
-//=============================================================================
+// =============================================================================
 // Authors:
 //   Charles Van Lingen <mailto:charles.vanlingen@gmail.com>
 //
@@ -34,16 +34,16 @@
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
 // THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //
-//=============================================================================
+// =============================================================================
 //
 // Revision History:
 //
-//   1.3 Dec 20/2017 C. Van Lingen  <V2.00> Migrated to PdfSharp 1.50 beta 4c
+//   1.4 Dec 20/2017 C. Van Lingen  <V2.00> Migrated to PdfSharp 1.50 beta 4c
 //                                  Automatically rebuild filenames if possible
-//                                  when files are moved to a different folder 
+//                                  when files are moved to a different folder
 //
 //   1.3 Oct  7/2012 C. Van Lingen  <V1.20> Migrated to PdfSharp 1.32
 //                                  Added use of CompatiblePdfReader based
@@ -53,46 +53,45 @@
 //   1.2 Jul 25/2008 C. Van Lingen  <V1.18> Added XML command file support to allow
 //                                  operation with unicode strings
 //
-//   1.1 Jan  1/2008 C. Van Lingen  (V1.17) Replaced merge tool with PDF sharp 
+//   1.1 Jan  1/2008 C. Van Lingen  (V1.17) Replaced merge tool with PDF sharp
 //                                  (handles up to version 1.6 PDF formats)
 //
 //   1.0 Oct 17/2006 C. Van Lingen  Added use of PdfTk to preprocess for multiple version tags (V1.14)
 //                                  (Previous fix was not adequate)
-//=============================================================================
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Xml;
+// =============================================================================
 
 namespace PdfMerge.SplitMergeLib
 {
-	/// <summary>
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Windows.Forms;
+    using System.Xml;
+
+    /// <summary>
     /// *********************************************************************************************
-	/// This class reads data from a text command file with the following format:
-	/// 
-	/// [path of pdf file];[page range];[include/exclude];[bookmark];[level]
-	/// 
-	/// An text command file example:
-	/// d:\shell.pdf;1-4;include;TITLE
-	/// d:\shell.pdf;5;exclude
-	/// d:\Compliance.pdf;all;include;COMPLIANCE;1
-	/// 
-	/// Notes:
-	/// 1) The page range can be a single page number, an n-n range, or all.
-	/// 
-	/// 2) Use include to import the bookmarks, exclude to not import bookmarks from
+    /// This class reads data from a text command file with the following format:
+    ///
+    /// [path of pdf file];[page range];[include/exclude];[bookmark];[level]
+    ///
+    /// An text command file example:
+    /// d:\shell.pdf;1-4;include;TITLE
+    /// d:\shell.pdf;5;exclude
+    /// d:\Compliance.pdf;all;include;COMPLIANCE;1
+    ///
+    /// Notes:
+    /// 1) The page range can be a single page number, an n-n range, or all.
+    ///
+    /// 2) Use include to import the bookmarks, exclude to not import bookmarks from
     /// the file.
-	/// 
-	/// 3) The bookmark field is optional.  If present a bookmark will be added at the first page of the
-	/// file being added.  
-	/// 
+    ///
+    /// 3) The bookmark field is optional.  If present a bookmark will be added at the first page of the
+    /// file being added.
+    ///
     /// 4) The level field is optional.  This is used to arrange bookmarks in a hierarchy.  An exception
-	/// will result if a level is skipped.
-    /// 
+    /// will result if a level is skipped.
+    ///
     /// *********************************************************************************************
     /// Alternatively this class will read from an XML command file with the following format:
     /// <?xml version="1.0" encoding="utf-16"?>
@@ -112,57 +111,64 @@ namespace PdfMerge.SplitMergeLib
     ///        <level>1</level>
     ///    </file>
     /// </merge>
-    /// 
+    ///
     /// Notes:
-    /// 1) The pages tag is optional if missing all pages are included. Page range can be a single page number, 
+    /// 1) The pages tag is optional if missing all pages are included. Page range can be a single page number,
     /// an n-n range, or all.
-    /// 
+    ///
     /// 2) The bookmark tag is optional.  If present a bookmark will be added at the first page of the
-    /// file being added.  
-    /// 
+    /// file being added.
+    ///
     /// 3) The level tag is optional.  This is used to arrange bookmarks in a hierarchy.  An exception
     /// will result if a level is skipped.
-    /// 
+    ///
     /// 4) The exclude attribute on the file tag is optional. If present and equal to 1 then the
     /// bookmarks from that file will not be imported.
     /// *********************************************************************************************
     /// </summary>
-	public class SplitMergeCmdFile
-	{
-        public List<MergeListFiles> MergeListFileArray = new List<MergeListFiles>();
-        public MergeListInfoDefn MergeListInfo = new MergeListInfoDefn();
-
+    public class SplitMergeCmdFile
+    {
         public SplitMergeCmdFile()
-		{
-		}
-
-        public string DoSplitMerge(string CommandFilename, string OutputFilename)
         {
-            return DoSplitMerge(CommandFilename, OutputFilename, null, 1, false, null);
+            this.MergeListFileArray = new List<MergeListFiles>();
+            this.MergeListInfo = new MergeListInfoDefn();
         }
 
-        public string DoSplitMerge(string OutputFilename, ListBox lbStat)
+        public List<MergeListFiles> MergeListFileArray { get; set; }
+
+        public MergeListInfoDefn MergeListInfo { get; set; }
+
+        public string DoSplitMerge(string commandFilename, string outputFilename)
         {
-            return DoSplitMerge(null, OutputFilename, lbStat, 1, false, null);
+            return this.DoSplitMerge(commandFilename, outputFilename, null, 1, false, null);
         }
 
-        public string DoSplitMerge(string CommandFilename, string OutputFilename, ListBox lbStat, int StartPageNumber, bool NumberPages, string Annotation)
+        public string DoSplitMerge(string outputFilename, ListBox lbStat)
+        {
+            return this.DoSplitMerge(null, outputFilename, lbStat, 1, false, null);
+        }
+
+        public string DoSplitMerge(string commandFilename, string outputFilename, ListBox lbStat, int startPageNumber, bool numberPages, string annotation)
         {
             PdfSharpSplitterMerger psm = null;
 
-            if (CommandFilename != null)
+            if (commandFilename != null)
             {
                 try
                 {
                     int fileMissingCount = 0;
-                    if (CommandFilename.ToLower().EndsWith(".xml"))
-                        fileMissingCount = ReadXmlCommandFile(CommandFilename);
+                    if (commandFilename.ToLower().EndsWith(".xml"))
+                    {
+                        fileMissingCount = this.ReadXmlCommandFile(commandFilename);
+                    }
                     else
-                        fileMissingCount = ReadAsciiCommandFile(CommandFilename);
+                    {
+                        fileMissingCount = this.ReadAsciiCommandFile(commandFilename);
+                    }
 
                     if (fileMissingCount > 0)
                     {
-                        ResolvePathsIfFoldersMoved(CommandFilename, fileMissingCount);
+                        this.ResolvePathsIfFoldersMoved(commandFilename, fileMissingCount);
                     }
                 }
                 catch (Exception err)
@@ -171,21 +177,21 @@ namespace PdfMerge.SplitMergeLib
                 }
             }
 
-            string line = "";
+            string line = string.Empty;
             try
             {
                 psm = new PdfSharpSplitterMerger();
 
                 int page = 1;
 
-                if (MergeListInfo.HasInfo == true)
+                if (this.MergeListInfo.HasInfo == true)
                 {
-                    psm.title = MergeListInfo.Info_Title;
-                    psm.subject = MergeListInfo.Info_Subject;
-                    psm.author = MergeListInfo.Info_Author;
+                    psm.Title = this.MergeListInfo.InfoTitle;
+                    psm.Subject = this.MergeListInfo.InfoSubject;
+                    psm.Author = this.MergeListInfo.InfoAuthor;
                 }
 
-                foreach (MergeListFiles merge in MergeListFileArray)
+                foreach (MergeListFiles merge in this.MergeListFileArray)
                 {
                     line = merge.Descriptor;
 
@@ -201,7 +207,7 @@ namespace PdfMerge.SplitMergeLib
                         }
 
                         // build the page array
-                        string[] pagearr = pagelst.Split(new Char[] { '-' });
+                        string[] pagearr = pagelst.Split(new char[] { '-' });
                         int start = 0;
                         int end = 0;
                         ArrayList ps = new ArrayList();
@@ -210,42 +216,62 @@ namespace PdfMerge.SplitMergeLib
                             start = int.Parse(pagearr[0]);
                             end = start;
                             if (pagearr.Length > 1)
-                                end = int.Parse(pagearr[1]);
-                            if (end > 0)
-                                for (int x = start; x <= end; ++x)
-                                    ps.Add(x - 1);
+                        {
+                            end = int.Parse(pagearr[1]);
                         }
+
+                        if (end > 0)
+                        {
+                            for (int x = start; x <= end; ++x)
+                            {
+                                ps.Add(x - 1);
+                            }
+                        }
+                    }
                         catch
                         {
                         }
 
                         // merge the input file
                         if (ps.Count > 0)
-                            page += psm.Add(file_add, ps.ToArray(typeof(int)) as int[]);
-                        else
-                            page += psm.Add(file_add);
+                    {
+                        page += psm.Add(file_add, ps.ToArray(typeof(int)) as int[]);
+                    }
+                    else
+                    {
+                        page += psm.Add(file_add);
+                    }
 
-                        // add bookmarks
-                        string RootTitle = merge.Bookmark;
+                    // add bookmarks
+                    string rootTitle = merge.Bookmark;
                         int level = merge.Level;
-                        psm.AddBookmarksFromFile(RootTitle, level, merge.Include, line);                
+                        psm.AddBookmarksFromFile(rootTitle, level, merge.Include, line);
                 }
-                // this writes out the merged files
-                psm.Finish(OutputFilename, Annotation, NumberPages, StartPageNumber);
 
+                // this writes out the merged files
+                psm.Finish(outputFilename, annotation, numberPages, startPageNumber);
             }
             catch (Exception err)
             {
                 psm = null;
 
-                String retval;
+                string retval;
                 if (line != null)
+                {
                     if (line.Length > 0)
+                    {
                         retval = err.Message + "\nOn Line:\n" + line;
+                    }
                     else
+                    {
                         retval = err.Message;
+                    }
+                }
                 else
+                {
                     retval = err.Message;
+                }
+
                 return retval;
             }
 
@@ -254,22 +280,26 @@ namespace PdfMerge.SplitMergeLib
             GC.WaitForPendingFinalizers();
 
             // return empty string indicating no error
-            return "";
+            return string.Empty;
         }
 
-        public void Load(string CommandFilename)
+        public void Load(string commandFilename)
         {
             try
             {
                 int fileMissingCount = 0;
-                if (CommandFilename.ToLower().EndsWith(".xml"))
-                    fileMissingCount = ReadXmlCommandFile(CommandFilename);
+                if (commandFilename.ToLower().EndsWith(".xml"))
+                {
+                    fileMissingCount = this.ReadXmlCommandFile(commandFilename);
+                }
                 else
-                    fileMissingCount = ReadAsciiCommandFile(CommandFilename);
+                {
+                    fileMissingCount = this.ReadAsciiCommandFile(commandFilename);
+                }
 
                 if (fileMissingCount > 0)
                 {
-                    ResolvePathsIfFoldersMoved(CommandFilename, fileMissingCount);
+                    this.ResolvePathsIfFoldersMoved(commandFilename, fileMissingCount);
                 }
             }
             catch (Exception err)
@@ -278,14 +308,18 @@ namespace PdfMerge.SplitMergeLib
             }
         }
 
-        public void Save(string CommandFilename)
+        public void Save(string commandFilename)
         {
             try
             {
-                if (CommandFilename.ToLower().EndsWith(".xml"))
-                    SaveXmlCommandFile(CommandFilename);
+                if (commandFilename.ToLower().EndsWith(".xml"))
+                {
+                    this.SaveXmlCommandFile(commandFilename);
+                }
                 else
-                    SaveAsciiCommandFile(CommandFilename);
+                {
+                    this.SaveAsciiCommandFile(commandFilename);
+                }
             }
             catch (Exception err)
             {
@@ -295,17 +329,22 @@ namespace PdfMerge.SplitMergeLib
 
         private void SaveAsciiCommandFile(string filename)
         {
-            if (MergeListFileArray.Count < 1)
+            if (this.MergeListFileArray.Count < 1)
+            {
                 return;
+            }
 
             using (StreamWriter sw = new StreamWriter(filename))
             {
-                foreach (MergeListFiles MergeItem in MergeListFileArray)
+                foreach (MergeListFiles mergeItem in this.MergeListFileArray)
                 {
-                    sw.WriteLine(MergeItem.Descriptor);
+                    sw.WriteLine(mergeItem.Descriptor);
                 }
-                if (MergeListInfo.HasInfo == true)
-                    sw.WriteLine(MergeListInfo.Descriptor);
+
+                if (this.MergeListInfo.HasInfo == true)
+                {
+                    sw.WriteLine(this.MergeListInfo.Descriptor);
+                }
             }
         }
 
@@ -313,10 +352,10 @@ namespace PdfMerge.SplitMergeLib
         {
             int fileMissingCount = 0;
 
-            MergeListFileArray = new List<MergeListFiles>();
-            MergeListInfo = new MergeListInfoDefn();
+            this.MergeListFileArray = new List<MergeListFiles>();
+            this.MergeListInfo = new MergeListInfoDefn();
 
-            string line = "";
+            string line = string.Empty;
 
             try
             {
@@ -324,32 +363,50 @@ namespace PdfMerge.SplitMergeLib
                 {
                     while ((line = sr.ReadLine()) != null)
                     {
-
-                        string[] args = line.Split(new Char[] { ';', '\r', '\n' });
+                        string[] args = line.Split(new char[] { ';', '\r', '\n' });
                         if (args[0].ToLower() == "[info]")
                         {
-                            MergeListInfo.HasInfo = true;
+                            this.MergeListInfo.HasInfo = true;
                             if (args.Length > 1)
-                                MergeListInfo.Info_Title = args[1];
+                            {
+                                this.MergeListInfo.InfoTitle = args[1];
+                            }
+
                             if (args.Length > 2)
-                                MergeListInfo.Info_Subject = args[2];
+                            {
+                                this.MergeListInfo.InfoSubject = args[2];
+                            }
+
                             if (args.Length > 3)
-                                MergeListInfo.Info_Author = args[3];
+                            {
+                                this.MergeListInfo.InfoAuthor = args[3];
+                            }
                         }
                         else
                         {
-                            MergeListFiles MergeElement = new MergeListFiles();
-                            MergeElement.Path = args[0];
-                            MergeElement.Pages = args[1];
+                            MergeListFiles mergeElement = new MergeListFiles();
+                            mergeElement.Path = args[0];
+                            mergeElement.Pages = args[1];
                             if (args.Length > 2)
+                            {
                                 if (args[2].ToUpper() == "EXCLUDE")
-                                    MergeElement.Include = false;
+                                {
+                                    mergeElement.Include = false;
+                                }
+                            }
+
                             if (args.Length > 3)
-                                MergeElement.Bookmark = args[3];
+                            {
+                                mergeElement.Bookmark = args[3];
+                            }
+
                             if (args.Length > 4)
-                                MergeElement.Level = int.Parse(args[4]);
-                            MergeListFileArray.Add(MergeElement);
-                            if (File.Exists(MergeElement.Path) == false)
+                            {
+                                mergeElement.Level = int.Parse(args[4]);
+                            }
+
+                            this.MergeListFileArray.Add(mergeElement);
+                            if (File.Exists(mergeElement.Path) == false)
                             {
                                 ++fileMissingCount;
                             }
@@ -360,8 +417,13 @@ namespace PdfMerge.SplitMergeLib
             catch (Exception err)
             {
                 if (line != null)
+                {
                     if (line.Length > 0)
+                    {
                         throw new Exception(err.Message + "\nOn Line:\n" + line);
+                    }
+                }
+
                 throw err;
             }
 
@@ -370,67 +432,94 @@ namespace PdfMerge.SplitMergeLib
 
         private void SaveXmlCommandFile(string filename)
         {
-            if (MergeListFileArray.Count < 1)
+            if (this.MergeListFileArray.Count < 1)
+            {
                 return;
+            }
 
             System.Xml.XmlTextWriter writer = new System.Xml.XmlTextWriter(filename, new System.Text.UnicodeEncoding());
             writer.Formatting = Formatting.Indented;
 
             writer.WriteStartDocument();
-            
+
             writer.WriteStartElement("merge");
 
-            //Write sub-elements
-            foreach (MergeListFiles MergeItem in MergeListFileArray)
+            // Write sub-elements
+            foreach (MergeListFiles mergeItem in this.MergeListFileArray)
             {
                 writer.WriteStartElement("file");
-                if (MergeItem.Include == false)
-                    writer.WriteAttributeString("exclude", "1");
-                writer.WriteElementString("path", MergeItem.Path);
-                writer.WriteElementString("pages", MergeItem.Pages);
-                if (MergeItem.Bookmark != null)
+                if (mergeItem.Include == false)
                 {
-                    writer.WriteElementString("bookmark", MergeItem.Bookmark);
-                    if (MergeItem.Level > 0)
-                        writer.WriteElementString("level", XmlConvert.ToString(MergeItem.Level));
+                    writer.WriteAttributeString("exclude", "1");
                 }
+
+                writer.WriteElementString("path", mergeItem.Path);
+                writer.WriteElementString("pages", mergeItem.Pages);
+                if (mergeItem.Bookmark != null)
+                {
+                    writer.WriteElementString("bookmark", mergeItem.Bookmark);
+                    if (mergeItem.Level > 0)
+                    {
+                        writer.WriteElementString("level", XmlConvert.ToString(mergeItem.Level));
+                    }
+                }
+
                 writer.WriteEndElement();
             }
 
             #region write info and options
-            if (MergeListInfo.HasInfo == true)
+            if (this.MergeListInfo.HasInfo == true)
             {
                 writer.WriteStartElement("info");
-                if (MergeListInfo.Info_Author.Length > 0)
-                    writer.WriteElementString("author", MergeListInfo.Info_Author);
-                if (MergeListInfo.Info_Subject.Length > 0)
-                    writer.WriteElementString("subject", MergeListInfo.Info_Subject);
-                if (MergeListInfo.Info_Title.Length > 0)
-                    writer.WriteElementString("title", MergeListInfo.Info_Title);
+                if (this.MergeListInfo.InfoAuthor.Length > 0)
+                {
+                    writer.WriteElementString("author", this.MergeListInfo.InfoAuthor);
+                }
+
+                if (this.MergeListInfo.InfoSubject.Length > 0)
+                {
+                    writer.WriteElementString("subject", this.MergeListInfo.InfoSubject);
+                }
+
+                if (this.MergeListInfo.InfoTitle.Length > 0)
+                {
+                    writer.WriteElementString("title", this.MergeListInfo.InfoTitle);
+                }
+
                 writer.WriteEndElement();
             }
+
             writer.WriteStartElement("options");
-            if (string.IsNullOrEmpty(MergeListInfo.OutFilename) == false)
-                writer.WriteElementString("outfile", MergeListInfo.OutFilename);
-            if (string.IsNullOrEmpty(MergeListInfo.Annotation) == false)
-                writer.WriteElementString("annotation", MergeListInfo.Annotation);
-            if (MergeListInfo.NumberPages == true)
-                writer.WriteElementString("startpage", MergeListInfo.StartPage.ToString());
+            if (string.IsNullOrEmpty(this.MergeListInfo.OutFilename) == false)
+            {
+                writer.WriteElementString("outfile", this.MergeListInfo.OutFilename);
+            }
+
+            if (string.IsNullOrEmpty(this.MergeListInfo.Annotation) == false)
+            {
+                writer.WriteElementString("annotation", this.MergeListInfo.Annotation);
+            }
+
+            if (this.MergeListInfo.NumberPages == true)
+            {
+                writer.WriteElementString("startpage", this.MergeListInfo.StartPage.ToString());
+            }
+
             writer.WriteEndElement();
             #endregion
 
             writer.WriteFullEndElement();
 
-            writer.Close();  
+            writer.Close();
         }
 
         private void ResolvePathsIfFoldersMoved(string cmdFileName, int missingCount)
         {
             // first get a list of folders used in the plan
             List<string> planFolders = new List<string>();
-            foreach (MergeListFiles MergeElement in MergeListFileArray)
+            foreach (MergeListFiles mergeElement in this.MergeListFileArray)
             {
-                string folder = Path.GetDirectoryName(MergeElement.Path);
+                string folder = Path.GetDirectoryName(mergeElement.Path);
                 if (planFolders.Contains(folder) == false)
                 {
                     planFolders.Add(folder);
@@ -438,7 +527,9 @@ namespace PdfMerge.SplitMergeLib
             }
 
             if (planFolders.Count < 1)
+            {
                 return;
+            }
 
             // find the common path
             string commonPath = FindCommonDirectoryPath.FindCommonPath(planFolders);
@@ -446,7 +537,7 @@ namespace PdfMerge.SplitMergeLib
             string findPath = Path.GetDirectoryName(cmdFileName);
             while (true)
             {
-                if (CheckMissing(commonPath, findPath) == 0)
+                if (this.CheckMissing(commonPath, findPath) == 0)
                 {
                     break;
                 }
@@ -460,41 +551,42 @@ namespace PdfMerge.SplitMergeLib
             }
 
             // all found - go ahead and adjust
-            AdjustFolders(commonPath, findPath);
+            this.AdjustFolders(commonPath, findPath);
         }
 
         private int CheckMissing(string oldCommonFolder, string newCommonFolder)
         {
             int countMissing = 0;
-            foreach (MergeListFiles MergeElement in MergeListFileArray)
+            foreach (MergeListFiles mergeElement in this.MergeListFileArray)
             {
-                string newFileName = MergeElement.Path.Replace(oldCommonFolder, newCommonFolder);
-                if (File.Exists(newFileName) == false && File.Exists(MergeElement.Path) == false)
+                string newFileName = mergeElement.Path.Replace(oldCommonFolder, newCommonFolder);
+                if (File.Exists(newFileName) == false && File.Exists(mergeElement.Path) == false)
                 {
                     ++countMissing;
                 }
             }
+
             return countMissing;
         }
 
         private void AdjustFolders(string oldCommonFolder, string newCommonFolder)
         {
-            foreach (MergeListFiles MergeElement in MergeListFileArray)
+            foreach (MergeListFiles mergeElement in this.MergeListFileArray)
             {
-                MergeElement.Path = MergeElement.Path.Replace(oldCommonFolder, newCommonFolder);
+                mergeElement.Path = mergeElement.Path.Replace(oldCommonFolder, newCommonFolder);
             }
 
-            MergeListInfo.OutFilename = MergeListInfo.OutFilename.Replace(oldCommonFolder, newCommonFolder);
+            this.MergeListInfo.OutFilename = this.MergeListInfo.OutFilename.Replace(oldCommonFolder, newCommonFolder);
         }
 
         private int ReadXmlCommandFile(string filename)
         {
-            string PlanFilePath = Path.GetDirectoryName(filename);
+            string planFilePath = Path.GetDirectoryName(filename);
 
-            MergeListFileArray = new List<MergeListFiles>();
-            MergeListInfo = new MergeListInfoDefn();
+            this.MergeListFileArray = new List<MergeListFiles>();
+            this.MergeListInfo = new MergeListInfoDefn();
 
-            MergeListFiles MergeElement = null;
+            MergeListFiles mergeElement = null;
 
             System.Xml.XmlTextReader reader = new System.Xml.XmlTextReader(filename);
 
@@ -507,164 +599,78 @@ namespace PdfMerge.SplitMergeLib
                     switch (reader.Name.ToLower())
                     {
                         case "file":
-                            if (MergeElement != null)
-                                MergeListFileArray.Add(MergeElement);
-                            MergeElement = new MergeListFiles();
+                            if (mergeElement != null)
+                            {
+                                this.MergeListFileArray.Add(mergeElement);
+                            }
+
+                            mergeElement = new MergeListFiles();
                             object exclude = reader.GetAttribute("exclude");
                             if (exclude != null)
+                            {
                                 if (exclude.ToString() == "1")
-                                    MergeElement.Include = false;
+                                {
+                                    mergeElement.Include = false;
+                                }
+                            }
+
                             break;
                         case "path":
-                            MergeElement.Path = reader.ReadElementContentAsString();
+                            mergeElement.Path = reader.ReadElementContentAsString();
+
                             // resolve paths, if files were moved
-                            if (File.Exists(MergeElement.Path) == false)
+                            if (File.Exists(mergeElement.Path) == false)
                             {
                                 ++fileNotFoundCount;
                             }
+
                             break;
                         case "pages":
-                            MergeElement.Pages = reader.ReadElementContentAsString();
+                            mergeElement.Pages = reader.ReadElementContentAsString();
                             break;
                         case "bookmark":
-                            MergeElement.Bookmark = reader.ReadElementContentAsString();
+                            mergeElement.Bookmark = reader.ReadElementContentAsString();
                             break;
                         case "level":
-                            MergeElement.Level = reader.ReadElementContentAsInt();
+                            mergeElement.Level = reader.ReadElementContentAsInt();
                             break;
                         case "info":
-                            MergeListInfo.HasInfo = true;
+                            this.MergeListInfo.HasInfo = true;
                             break;
                         case "author":
-                            MergeListInfo.HasInfo = true;
-                            MergeListInfo.Info_Author = reader.ReadElementContentAsString();
+                            this.MergeListInfo.HasInfo = true;
+                            this.MergeListInfo.InfoAuthor = reader.ReadElementContentAsString();
                             break;
                         case "title":
-                            MergeListInfo.HasInfo = true;
-                            MergeListInfo.Info_Title = reader.ReadElementContentAsString();
+                            this.MergeListInfo.HasInfo = true;
+                            this.MergeListInfo.InfoTitle = reader.ReadElementContentAsString();
                             break;
                         case "subject":
-                            MergeListInfo.HasInfo = true;
-                            MergeListInfo.Info_Subject = reader.ReadElementContentAsString();
+                            this.MergeListInfo.HasInfo = true;
+                            this.MergeListInfo.InfoSubject = reader.ReadElementContentAsString();
                             break;
                         case "annotation":
-                            MergeListInfo.Annotation = reader.ReadElementContentAsString();
+                            this.MergeListInfo.Annotation = reader.ReadElementContentAsString();
                             break;
                         case "outfile":
-                            MergeListInfo.OutFilename = reader.ReadElementContentAsString();
+                            this.MergeListInfo.OutFilename = reader.ReadElementContentAsString();
                             break;
                         case "startpage":
-                            MergeListInfo.StartPage = int.Parse(reader.ReadElementContentAsString());
-                            MergeListInfo.NumberPages = true;
+                            this.MergeListInfo.StartPage = int.Parse(reader.ReadElementContentAsString());
+                            this.MergeListInfo.NumberPages = true;
                             break;
                     }
                 }
             }
-            if (MergeElement != null)
-                MergeListFileArray.Add(MergeElement);
+
+            if (mergeElement != null)
+            {
+                this.MergeListFileArray.Add(mergeElement);
+            }
+
             reader.Close();
 
             return fileNotFoundCount;
         }
-
-	}
-
-    public class MergeListInfoDefn
-    {
-        public bool HasInfo = false;
-        public string Info_Author, Info_Title, Info_Subject;
-
-        public string OutFilename="merged.pdf";
-        public string Annotation="";
-        public bool NumberPages=false;
-        public int StartPage=1;
-
-        public MergeListInfoDefn()
-        {
-            HasInfo = false;
-            Info_Title = "";
-            Info_Subject = "";
-            Info_Author = "";
-        }
-
-        /// <summary>
-        /// Ascii representation
-        /// </summary>
-        public string Descriptor
-        {
-            get
-            {
-                string s = "[info];";
-                if (Info_Title.Length > 0)
-                {
-                    s += Info_Title;
-                    if (Info_Subject.Length > 0)
-                    {
-                        s += ";" + Info_Subject;
-                        if (Info_Author.Length > 0)
-                        {
-                            s += ";" + Info_Author;
-                        }
-
-                    }
-                }
-                return s;
-            }
-        }
     }
-
-    public class MergeListFiles : ICloneable
-    {
-        public string Path;
-        public string Pages;
-        public string Bookmark;
-        public int Level;
-        public bool Include;
-
-        public Object Clone()
-        {
-            MergeListFiles clone = new MergeListFiles();
-            clone.Path = Path;
-            clone.Pages = Pages;
-            clone.Bookmark = Bookmark;
-            clone.Level = Level;
-            clone.Include = Include;
-            return clone;
-        }
-
-        public MergeListFiles()
-        {
-            Path = null;
-            Pages = "all";
-            Bookmark = null;
-            Level = 0;
-            Include = true;
-        }
-
-        /// <summary>
-        /// Description of current operation for GUI display
-        /// </summary>
-        public string Descriptor
-        {
-            get
-            {
-                string s = "";
-                // [path of pdf file];[page range];[import];[bookmark];[level]
-                s += Path + ";";
-                s += Pages + ";";
-                if (Include == true)
-                    s += "include";
-                else
-                    s += "exclude";
-                if (Bookmark != null)
-                {
-                    s += ";" + Bookmark;
-                    if (Level > 0)
-                        s += ";" + Level.ToString();
-                }
-                return s;
-            }
-        }
-    }
-
 }

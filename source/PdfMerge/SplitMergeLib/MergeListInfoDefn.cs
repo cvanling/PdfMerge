@@ -9,8 +9,8 @@
 // iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.
 // See the readme.doc file included with this package.
 // =============================================================================
-// File: InfoForm.cs
-// Description: Form to view/enter PDF annotations
+// File: SplitMergeCmdFile.cs
+// Description: Top level class for merge/split from a command file
 // =============================================================================
 // Authors:
 //   Charles Van Lingen <mailto:charles.vanlingen@gmail.com>
@@ -41,58 +41,64 @@
 //
 // Revision History:
 //
-//   1.0 Aug 2/2008 C. Van Lingen  <V1.18> Initial Release
+//   1.0 Dec 20/2017 C. Van Lingen  <V2.00> Initial release
 // =============================================================================
-namespace PdfMerge
+
+namespace PdfMerge.SplitMergeLib
 {
-    using System;
-    using System.Windows.Forms;
-    using PdfMerge.SplitMergeLib;
-
-    public partial class InfoForm : Form
+    public class MergeListInfoDefn
     {
-        private MergeListInfoDefn info;
-
-        public InfoForm(MergeListInfoDefn info)
+        public MergeListInfoDefn()
         {
-            this.info = info;
-            this.InitializeComponent();
-            if (this.info.HasInfo == true)
-            {
-                this.textBoxTitle.Text = this.info.InfoTitle;
-                this.textBoxSubject.Text = this.info.InfoSubject;
-                this.textBoxAuthor.Text = this.info.InfoAuthor;
-            }
+            this.HasInfo = false;
+            this.InfoTitle = string.Empty;
+            this.InfoSubject = string.Empty;
+            this.InfoAuthor = string.Empty;
+            this.StartPage = 1;
+            this.NumberPages = false;
+            this.Annotation = string.Empty;
+            this.OutFilename = "merged.pdf";
         }
 
-        private void ButtonOK_Click(object sender, EventArgs e)
+        public string InfoAuthor { get; set; }
+
+        public string InfoTitle { get; set; }
+
+        public string InfoSubject { get; set; }
+
+        public string OutFilename { get; set; }
+
+        public string Annotation { get; set; }
+
+        public bool NumberPages { get; set; }
+
+        public int StartPage { get; set; }
+
+        public bool HasInfo { get; set; }
+
+        /// <summary>
+        /// Gets ascii representation
+        /// </summary>
+        public string Descriptor
         {
-            this.info.InfoTitle = this.textBoxTitle.Text;
-            this.info.InfoSubject = this.textBoxSubject.Text;
-            this.info.InfoAuthor = this.textBoxAuthor.Text;
-
-            this.info.HasInfo = false;
-            if (this.info.InfoTitle.Length > 0)
+            get
             {
-                this.info.HasInfo = true;
+                string s = "[info];";
+                if (this.InfoTitle.Length > 0)
+                {
+                    s += this.InfoTitle;
+                    if (this.InfoSubject.Length > 0)
+                    {
+                        s += ";" + this.InfoSubject;
+                        if (this.InfoAuthor.Length > 0)
+                        {
+                            s += ";" + this.InfoAuthor;
+                        }
+                    }
+                }
+
+                return s;
             }
-
-            if (this.info.InfoSubject.Length > 0)
-            {
-                this.info.HasInfo = true;
-            }
-
-            if (this.info.InfoAuthor.Length > 0)
-            {
-                this.info.HasInfo = true;
-            }
-
-            this.Close();
-        }
-
-        private void ButtonCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
     }
 }

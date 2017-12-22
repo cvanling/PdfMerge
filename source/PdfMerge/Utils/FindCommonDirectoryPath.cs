@@ -1,11 +1,11 @@
 ﻿// From:
 // https://stackoverflow.com/questions/24866683/find-common-parent-path-in-list-of-files-and-directories
 
-using System.Collections.Generic;
-
 namespace PdfMerge
 {
-    class FindCommonDirectoryPath
+    using System.Collections.Generic;
+
+    public class FindCommonDirectoryPath
     {
         public static string FindCommonPath(List<string> paths)
         {
@@ -27,6 +27,7 @@ namespace PdfMerge
                 {
                     commonPath += firstPath[i];
                 }
+
                 i++;
             }
 

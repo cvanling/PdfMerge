@@ -9,8 +9,8 @@
 // iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.
 // See the readme.doc file included with this package.
 // =============================================================================
-// File: InfoForm.cs
-// Description: Form to view/enter PDF annotations
+// File: PdfMergeForm.cs
+// Description: Main form for interactive merge definition
 // =============================================================================
 // Authors:
 //   Charles Van Lingen <mailto:charles.vanlingen@gmail.com>
@@ -41,58 +41,40 @@
 //
 // Revision History:
 //
-//   1.0 Aug 2/2008 C. Van Lingen  <V1.18> Initial Release
+//   1.0 Dec 20/2017 C. Van Lingen  <V2.00> Initial release
 // =============================================================================
 namespace PdfMerge
 {
-    using System;
+    using System.Drawing;
     using System.Windows.Forms;
-    using PdfMerge.SplitMergeLib;
 
-    public partial class InfoForm : Form
+    public class ItemLevel
     {
-        private MergeListInfoDefn info;
-
-        public InfoForm(MergeListInfoDefn info)
+        internal ItemLevel(Color color, int levelIndex)
         {
-            this.info = info;
-            this.InitializeComponent();
-            if (this.info.HasInfo == true)
-            {
-                this.textBoxTitle.Text = this.info.InfoTitle;
-                this.textBoxSubject.Text = this.info.InfoSubject;
-                this.textBoxAuthor.Text = this.info.InfoAuthor;
-            }
+            this.Style = new DataGridViewCellStyle();
+
+            this.Style.BackColor = color;
+            this.Style.SelectionBackColor = color;
+            this.Style.SelectionForeColor = Color.Black;
+
+            this.Index = levelIndex;
         }
 
-        private void ButtonOK_Click(object sender, EventArgs e)
+        public DataGridViewCellStyle Style { get; set; }
+
+        public int Index { get; set; }
+
+        internal string GetItemString(int rowindex)
         {
-            this.info.InfoTitle = this.textBoxTitle.Text;
-            this.info.InfoSubject = this.textBoxSubject.Text;
-            this.info.InfoAuthor = this.textBoxAuthor.Text;
-
-            this.info.HasInfo = false;
-            if (this.info.InfoTitle.Length > 0)
+            string s = "..................................";
+            int ndots = this.Index;
+            if (ndots > 7)
             {
-                this.info.HasInfo = true;
+                ndots = 7;
             }
 
-            if (this.info.InfoSubject.Length > 0)
-            {
-                this.info.HasInfo = true;
-            }
-
-            if (this.info.InfoAuthor.Length > 0)
-            {
-                this.info.HasInfo = true;
-            }
-
-            this.Close();
-        }
-
-        private void ButtonCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
+            return s.Substring(0, ndots) + (rowindex + 1).ToString();
         }
     }
 }
