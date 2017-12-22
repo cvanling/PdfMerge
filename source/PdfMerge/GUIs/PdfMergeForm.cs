@@ -73,7 +73,7 @@ namespace PdfMerge
         private string currentFile = string.Empty;
         private List<ItemLevel> rowcolors = new List<ItemLevel>();
 
-        public PdfMergeForm()
+        public PdfMergeForm(string cmdFile, string outFile)
         {
             this.InitializeComponent();
             this.dataGrid.AllowDrop = true;
@@ -100,6 +100,25 @@ namespace PdfMerge
             while (this.rowcolors.Count < 21)
             {
                 this.rowcolors.Add(new ItemLevel(Color.LightCyan, this.rowcolors.Count));
+            }
+
+            if (cmdFile != string.Empty)
+            {
+                try
+                {
+                    this.merger.Load(cmdFile);
+                    this.currentFile = cmdFile;
+                    this.UpdateGrid();
+                }
+                catch
+                {
+                    // do nothing
+                }
+            }
+
+            if (outFile != string.Empty)
+            {
+                this.outBox.Text = outFile;
             }
         }
 

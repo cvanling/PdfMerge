@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PdfMergeForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -115,8 +115,7 @@
             this.toolStripButton3});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(16, 5, 0, 5);
-            this.menuStrip1.Size = new System.Drawing.Size(2090, 58);
+            this.menuStrip1.Size = new System.Drawing.Size(784, 39);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "Open";
             // 
@@ -133,7 +132,7 @@
             this.toolStripSeparator1,
             this.exitToolStripMenuItem1});
             this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(75, 48);
+            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(37, 35);
             this.fileToolStripMenuItem1.Text = "&File";
             // 
             // newToolStripMenuItem
@@ -142,7 +141,7 @@
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(314, 46);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(164, 34);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
@@ -152,14 +151,14 @@
             this.openToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem1.Name = "openToolStripMenuItem1";
             this.openToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem1.Size = new System.Drawing.Size(314, 46);
+            this.openToolStripMenuItem1.Size = new System.Drawing.Size(164, 34);
             this.openToolStripMenuItem1.Text = "&Open";
             this.openToolStripMenuItem1.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(311, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(161, 6);
             // 
             // saveToolStripMenuItem1
             // 
@@ -167,37 +166,37 @@
             this.saveToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
             this.saveToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(314, 46);
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(164, 34);
             this.saveToolStripMenuItem1.Text = "&Save";
             this.saveToolStripMenuItem1.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem1
             // 
             this.saveAsToolStripMenuItem1.Name = "saveAsToolStripMenuItem1";
-            this.saveAsToolStripMenuItem1.Size = new System.Drawing.Size(314, 46);
+            this.saveAsToolStripMenuItem1.Size = new System.Drawing.Size(164, 34);
             this.saveAsToolStripMenuItem1.Text = "Save &As";
             this.saveAsToolStripMenuItem1.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(311, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(161, 6);
             // 
             // recentToolStripMenuItem
             // 
             this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
-            this.recentToolStripMenuItem.Size = new System.Drawing.Size(314, 46);
+            this.recentToolStripMenuItem.Size = new System.Drawing.Size(164, 34);
             this.recentToolStripMenuItem.Text = "Recent";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(311, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
             // 
             // exitToolStripMenuItem1
             // 
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(314, 46);
+            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(164, 34);
             this.exitToolStripMenuItem1.Text = "E&xit";
             this.exitToolStripMenuItem1.Click += new System.EventHandler(this.ExitToolStripMenuItem1_Click);
             // 
@@ -210,21 +209,21 @@
             this.toolStripSeparator6,
             this.selectAllToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
-            this.editToolStripMenuItem.Size = new System.Drawing.Size(80, 48);
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 35);
             this.editToolStripMenuItem.Text = "&Edit";
             // 
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(308, 46);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.undoToolStripMenuItem.Text = "&Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.UndoToolStripMenuItem_Click);
             // 
             // toolStripSeparator5
             // 
             this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(305, 6);
+            this.toolStripSeparator5.Size = new System.Drawing.Size(141, 6);
             // 
             // cutToolStripMenuItem
             // 
@@ -232,19 +231,19 @@
             this.cutToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.cutToolStripMenuItem.Name = "cutToolStripMenuItem";
             this.cutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.cutToolStripMenuItem.Size = new System.Drawing.Size(308, 46);
+            this.cutToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.cutToolStripMenuItem.Text = "Cu&t";
             this.cutToolStripMenuItem.Click += new System.EventHandler(this.ButtonRemove_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(305, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(141, 6);
             // 
             // selectAllToolStripMenuItem
             // 
             this.selectAllToolStripMenuItem.Name = "selectAllToolStripMenuItem";
-            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(308, 46);
+            this.selectAllToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.selectAllToolStripMenuItem.Text = "Select &All";
             this.selectAllToolStripMenuItem.Click += new System.EventHandler(this.SelectAllToolStripMenuItem_Click);
             // 
@@ -255,27 +254,27 @@
             this.pDToolStripMenuItem,
             this.copyFilenamesToBookmarksToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(99, 48);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 35);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // customizeToolStripMenuItem
             // 
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(574, 46);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             this.customizeToolStripMenuItem.Text = "PDF Annotations";
             this.customizeToolStripMenuItem.Click += new System.EventHandler(this.CustomizeToolStripMenuItem_Click);
             // 
             // pDToolStripMenuItem
             // 
             this.pDToolStripMenuItem.Name = "pDToolStripMenuItem";
-            this.pDToolStripMenuItem.Size = new System.Drawing.Size(574, 46);
+            this.pDToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             this.pDToolStripMenuItem.Text = "PDF Viewer Select";
             this.pDToolStripMenuItem.Click += new System.EventHandler(this.PdfViewerSelect_Click);
             // 
             // copyFilenamesToBookmarksToolStripMenuItem
             // 
             this.copyFilenamesToBookmarksToolStripMenuItem.Name = "copyFilenamesToBookmarksToolStripMenuItem";
-            this.copyFilenamesToBookmarksToolStripMenuItem.Size = new System.Drawing.Size(574, 46);
+            this.copyFilenamesToBookmarksToolStripMenuItem.Size = new System.Drawing.Size(251, 22);
             this.copyFilenamesToBookmarksToolStripMenuItem.Text = "Copy All Filenames to Bookmarks";
             this.copyFilenamesToBookmarksToolStripMenuItem.Click += new System.EventHandler(this.CopyFilenamesToBookmarksToolStripMenuItem_Click);
             // 
@@ -286,25 +285,25 @@
             this.toolStripSeparator7,
             this.aboutToolStripMenuItem1});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            this.helpToolStripMenuItem.Size = new System.Drawing.Size(92, 48);
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 35);
             this.helpToolStripMenuItem.Text = "&Help";
             // 
             // contentsToolStripMenuItem
             // 
             this.contentsToolStripMenuItem.Name = "contentsToolStripMenuItem";
-            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(252, 46);
+            this.contentsToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
             this.contentsToolStripMenuItem.Text = "&Contents";
             this.contentsToolStripMenuItem.Click += new System.EventHandler(this.ContentsToolStripMenuItem_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(249, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(119, 6);
             // 
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(252, 46);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(122, 22);
             this.aboutToolStripMenuItem1.Text = "&About...";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
@@ -315,7 +314,7 @@
             this.toolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(40, 48);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(40, 35);
             this.toolStripMenuItem1.Text = "&New";
             this.toolStripMenuItem1.ToolTipText = "New List";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
@@ -326,7 +325,7 @@
             this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(32, 45);
+            this.toolStripButton1.Size = new System.Drawing.Size(32, 32);
             this.toolStripButton1.Text = "&Open";
             this.toolStripButton1.ToolTipText = "Open List";
             this.toolStripButton1.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
@@ -337,7 +336,7 @@
             this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(32, 45);
+            this.toolStripButton2.Size = new System.Drawing.Size(32, 32);
             this.toolStripButton2.Text = "&Save";
             this.toolStripButton2.ToolTipText = "Save";
             this.toolStripButton2.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
@@ -349,7 +348,7 @@
             this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(32, 45);
+            this.toolStripButton3.Size = new System.Drawing.Size(32, 32);
             this.toolStripButton3.Text = "He&lp";
             this.toolStripButton3.Click += new System.EventHandler(this.AboutToolStripMenuItem_Click);
             // 
@@ -357,18 +356,17 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.dataGrid, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 58);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 39);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 253F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(2090, 1216);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 106F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 495);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // panel1
@@ -380,10 +378,9 @@
             this.panel1.Controls.Add(this.buttonEdit);
             this.panel1.Controls.Add(this.buttonDown);
             this.panel1.Controls.Add(this.buttonUp);
-            this.panel1.Location = new System.Drawing.Point(1965, 8);
-            this.panel1.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.panel1.Location = new System.Drawing.Point(737, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(116, 947);
+            this.panel1.Size = new System.Drawing.Size(44, 383);
             this.panel1.TabIndex = 1;
             // 
             // buttonRemove
@@ -393,10 +390,9 @@
             this.buttonRemove.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonRemove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonRemove.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonRemove.Location = new System.Drawing.Point(3, 226);
-            this.buttonRemove.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.buttonRemove.Location = new System.Drawing.Point(1, 95);
             this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(106, 96);
+            this.buttonRemove.Size = new System.Drawing.Size(40, 40);
             this.buttonRemove.TabIndex = 19;
             this.toolTip1.SetToolTip(this.buttonRemove, "Delete selected rows");
             this.buttonRemove.Click += new System.EventHandler(this.ButtonRemove_Click);
@@ -405,10 +401,9 @@
             // 
             this.buttonEdit.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonEdit.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonEdit.Location = new System.Drawing.Point(6, 852);
-            this.buttonEdit.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.buttonEdit.Location = new System.Drawing.Point(2, 343);
             this.buttonEdit.Name = "buttonEdit";
-            this.buttonEdit.Size = new System.Drawing.Size(106, 96);
+            this.buttonEdit.Size = new System.Drawing.Size(40, 40);
             this.buttonEdit.TabIndex = 21;
             this.buttonEdit.Text = "View";
             this.toolTip1.SetToolTip(this.buttonEdit, "View selected PDF");
@@ -422,10 +417,9 @@
             this.buttonDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonDown.Location = new System.Drawing.Point(0, 116);
-            this.buttonDown.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.buttonDown.Location = new System.Drawing.Point(0, 49);
             this.buttonDown.Name = "buttonDown";
-            this.buttonDown.Size = new System.Drawing.Size(106, 96);
+            this.buttonDown.Size = new System.Drawing.Size(40, 40);
             this.buttonDown.TabIndex = 18;
             this.toolTip1.SetToolTip(this.buttonDown, "Move selected rows down");
             this.buttonDown.Click += new System.EventHandler(this.ButtonDown_Click);
@@ -436,10 +430,9 @@
             this.buttonUp.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("buttonUp.BackgroundImage")));
             this.buttonUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.buttonUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonUp.Location = new System.Drawing.Point(3, 8);
-            this.buttonUp.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.buttonUp.Location = new System.Drawing.Point(1, 3);
             this.buttonUp.Name = "buttonUp";
-            this.buttonUp.Size = new System.Drawing.Size(106, 96);
+            this.buttonUp.Size = new System.Drawing.Size(40, 40);
             this.buttonUp.TabIndex = 20;
             this.toolTip1.SetToolTip(this.buttonUp, "Move selected rows up");
             this.buttonUp.Click += new System.EventHandler(this.ButtonUp_Click);
@@ -456,20 +449,17 @@
             this.panel2.Controls.Add(this.ViewLast);
             this.panel2.Controls.Add(this.Merge);
             this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Location = new System.Drawing.Point(9, 971);
-            this.panel2.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.panel2.Location = new System.Drawing.Point(3, 392);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(2072, 237);
+            this.panel2.Size = new System.Drawing.Size(778, 100);
             this.panel2.TabIndex = 2;
             // 
             // status
             // 
             this.status.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.status.ItemHeight = 31;
             this.status.Location = new System.Drawing.Point(0, 0);
-            this.status.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
             this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(2072, 237);
+            this.status.Size = new System.Drawing.Size(778, 100);
             this.status.TabIndex = 10;
             this.status.Visible = false;
             // 
@@ -482,11 +472,9 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.textBoxStartPage);
-            this.groupBox2.Location = new System.Drawing.Point(310, 129);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.groupBox2.Location = new System.Drawing.Point(116, 54);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(9, 8, 9, 8);
-            this.groupBox2.Size = new System.Drawing.Size(1195, 96);
+            this.groupBox2.Size = new System.Drawing.Size(449, 40);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Page Numbering and Foot Note";
@@ -495,10 +483,9 @@
             // 
             this.checkBoxNumberPages.AutoSize = true;
             this.checkBoxNumberPages.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxNumberPages.Location = new System.Drawing.Point(32, 45);
-            this.checkBoxNumberPages.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.checkBoxNumberPages.Location = new System.Drawing.Point(12, 19);
             this.checkBoxNumberPages.Name = "checkBoxNumberPages";
-            this.checkBoxNumberPages.Size = new System.Drawing.Size(249, 36);
+            this.checkBoxNumberPages.Size = new System.Drawing.Size(99, 17);
             this.checkBoxNumberPages.TabIndex = 11;
             this.checkBoxNumberPages.Text = "Number Pages:";
             this.toolTip1.SetToolTip(this.checkBoxNumberPages, "If selected , each page is numbered");
@@ -508,49 +495,44 @@
             // 
             this.textBoxAnnotate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxAnnotate.Location = new System.Drawing.Point(640, 39);
-            this.textBoxAnnotate.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.textBoxAnnotate.Location = new System.Drawing.Point(240, 16);
             this.textBoxAnnotate.Name = "textBoxAnnotate";
-            this.textBoxAnnotate.Size = new System.Drawing.Size(532, 38);
+            this.textBoxAnnotate.Size = new System.Drawing.Size(203, 20);
             this.textBoxAnnotate.TabIndex = 15;
             this.toolTip1.SetToolTip(this.textBoxAnnotate, "Optional footer text for each page");
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(326, 48);
-            this.label1.Margin = new System.Windows.Forms.Padding(9, 0, 9, 0);
+            this.label1.Location = new System.Drawing.Point(122, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(83, 32);
+            this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 12;
             this.label1.Text = "Start:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(538, 48);
-            this.label2.Margin = new System.Windows.Forms.Padding(9, 0, 9, 0);
+            this.label2.Location = new System.Drawing.Point(202, 20);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(105, 32);
+            this.label2.Size = new System.Drawing.Size(40, 13);
             this.label2.TabIndex = 14;
             this.label2.Text = "Footer:";
             // 
             // textBoxStartPage
             // 
-            this.textBoxStartPage.Location = new System.Drawing.Point(409, 39);
-            this.textBoxStartPage.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.textBoxStartPage.Location = new System.Drawing.Point(153, 16);
             this.textBoxStartPage.Name = "textBoxStartPage";
-            this.textBoxStartPage.Size = new System.Drawing.Size(87, 38);
+            this.textBoxStartPage.Size = new System.Drawing.Size(35, 20);
             this.textBoxStartPage.TabIndex = 13;
             this.textBoxStartPage.Text = "1";
             this.toolTip1.SetToolTip(this.textBoxStartPage, "Starting page number");
             // 
             // buttonPickFile
             // 
-            this.buttonPickFile.Location = new System.Drawing.Point(25, 19);
-            this.buttonPickFile.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.buttonPickFile.Location = new System.Drawing.Point(9, 8);
             this.buttonPickFile.Name = "buttonPickFile";
-            this.buttonPickFile.Size = new System.Drawing.Size(256, 205);
+            this.buttonPickFile.Size = new System.Drawing.Size(96, 86);
             this.buttonPickFile.TabIndex = 9;
             this.buttonPickFile.Text = "Add Files";
             this.toolTip1.SetToolTip(this.buttonPickFile, "Add files from here or drag and drop onto form");
@@ -559,10 +541,9 @@
             // ViewLast
             // 
             this.ViewLast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ViewLast.Location = new System.Drawing.Point(1792, 19);
-            this.ViewLast.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.ViewLast.Location = new System.Drawing.Point(673, 8);
             this.ViewLast.Name = "ViewLast";
-            this.ViewLast.Size = new System.Drawing.Size(256, 205);
+            this.ViewLast.Size = new System.Drawing.Size(96, 86);
             this.ViewLast.TabIndex = 8;
             this.ViewLast.Text = "View Last Merged";
             this.toolTip1.SetToolTip(this.ViewLast, "View last merged output file");
@@ -572,10 +553,9 @@
             // 
             this.Merge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Merge.BackColor = System.Drawing.Color.Lime;
-            this.Merge.Location = new System.Drawing.Point(1520, 19);
-            this.Merge.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.Merge.Location = new System.Drawing.Point(571, 8);
             this.Merge.Name = "Merge";
-            this.Merge.Size = new System.Drawing.Size(256, 205);
+            this.Merge.Size = new System.Drawing.Size(96, 86);
             this.Merge.TabIndex = 7;
             this.Merge.Text = "Merge / Split";
             this.toolTip1.SetToolTip(this.Merge, "Start merging filelist to output file");
@@ -589,11 +569,9 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.buttonSelectSaveTo);
             this.groupBox1.Controls.Add(this.outBox);
-            this.groupBox1.Location = new System.Drawing.Point(310, 19);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.groupBox1.Location = new System.Drawing.Point(116, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(9, 8, 9, 8);
-            this.groupBox1.Size = new System.Drawing.Size(1195, 96);
+            this.groupBox1.Size = new System.Drawing.Size(449, 40);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Save to PDF";
@@ -601,20 +579,18 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(25, 45);
-            this.label3.Margin = new System.Windows.Forms.Padding(9, 0, 9, 0);
+            this.label3.Location = new System.Drawing.Point(9, 19);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(141, 32);
+            this.label3.Size = new System.Drawing.Size(52, 13);
             this.label3.TabIndex = 16;
             this.label3.Text = "Filename:";
             // 
             // buttonSelectSaveTo
             // 
             this.buttonSelectSaveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSelectSaveTo.Location = new System.Drawing.Point(1115, 34);
-            this.buttonSelectSaveTo.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.buttonSelectSaveTo.Location = new System.Drawing.Point(419, 14);
             this.buttonSelectSaveTo.Name = "buttonSelectSaveTo";
-            this.buttonSelectSaveTo.Size = new System.Drawing.Size(64, 54);
+            this.buttonSelectSaveTo.Size = new System.Drawing.Size(24, 23);
             this.buttonSelectSaveTo.TabIndex = 6;
             this.buttonSelectSaveTo.Text = "...";
             this.toolTip1.SetToolTip(this.buttonSelectSaveTo, "Show file dialog to specify output filename");
@@ -624,10 +600,9 @@
             // 
             this.outBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.outBox.Location = new System.Drawing.Point(179, 39);
-            this.outBox.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.outBox.Location = new System.Drawing.Point(67, 16);
             this.outBox.Name = "outBox";
-            this.outBox.Size = new System.Drawing.Size(914, 38);
+            this.outBox.Size = new System.Drawing.Size(346, 20);
             this.outBox.TabIndex = 5;
             this.outBox.Text = "output.pdf";
             this.toolTip1.SetToolTip(this.outBox, "Merged PDF will be saved to this filename");
@@ -642,14 +617,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -658,29 +633,28 @@
             this.Column4,
             this.Import,
             this.Column5});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle5;
             this.dataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dataGrid.Location = new System.Drawing.Point(9, 8);
-            this.dataGrid.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
+            this.dataGrid.Location = new System.Drawing.Point(3, 3);
             this.dataGrid.Name = "dataGrid";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.dataGrid.RowHeadersVisible = false;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(1938, 947);
+            this.dataGrid.Size = new System.Drawing.Size(728, 383);
             this.dataGrid.TabIndex = 0;
             this.dataGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.DataGrid_CurrentCellDirtyStateChanged);
             this.dataGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.DataGrid_DragDrop);
@@ -743,15 +717,14 @@
             // 
             // PdfMergeForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2090, 1274);
+            this.ClientSize = new System.Drawing.Size(784, 534);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
-            this.MinimumSize = new System.Drawing.Size(2090, 858);
+            this.MinimumSize = new System.Drawing.Size(729, 382);
             this.Name = "PdfMergeForm";
             this.Text = "PdfMerge";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PdfMergeForm_FormClosing);

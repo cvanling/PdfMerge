@@ -1,0 +1,1 @@
+C:\Users\charl\Source\Repos\PdfMerge\source\PdfMerge\bin\Release\PdfMerge example2.xml testcase1_merge.pdf

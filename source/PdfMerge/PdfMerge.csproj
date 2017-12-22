@@ -7,7 +7,7 @@
     <ProjectGuid>{603D6511-36E9-456B-BA60-D40EB34561FF}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ApplicationIcon>app.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
     <AssemblyKeyContainerName>
     </AssemblyKeyContainerName>
     <AssemblyName>PdfMerge</AssemblyName>
@@ -69,7 +69,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>PdfMerge.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Resources\PdfMerge.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -93,7 +93,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugType>none</DebugType>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>PdfMerge.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Resources\PdfMerge.ruleset</CodeAnalysisRuleSet>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
@@ -126,22 +126,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app.ico" />
+    <Content Include="Resources\app.ico" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="InfoForm.cs">
+    <Compile Include="GUIs\InfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="InfoForm.Designer.cs">
+    <Compile Include="GUIs\InfoForm.Designer.cs">
       <DependentUpon>InfoForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ItemLevel.cs" />
-    <Compile Include="MruStripMenu.cs" />
-    <Compile Include="PdfMergeForm.cs">
+    <Compile Include="GUIs\ItemLevel.cs" />
+    <Compile Include="GUIs\MruStripMenu.cs" />
+    <Compile Include="GUIs\PdfMergeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PdfMergeForm.Designer.cs">
+    <Compile Include="GUIs\PdfMergeForm.Designer.cs">
       <DependentUpon>PdfMergeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
@@ -162,11 +162,11 @@
     <Compile Include="SplitMergeLib\PdfSharpSplitterMerger.cs" />
     <Compile Include="Program.cs" />
     <Content Include="SplitMergeLib\CmdSample.xml" />
-    <EmbeddedResource Include="InfoForm.resx">
+    <EmbeddedResource Include="GUIs\InfoForm.resx">
       <DependentUpon>InfoForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="PdfMergeForm.resx">
+    <EmbeddedResource Include="GUIs\PdfMergeForm.resx">
       <DependentUpon>PdfMergeForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -204,22 +204,23 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="PdfMerge.ruleset" />
-    <None Include="readme.doc" />
+    <None Include="Resources\app.config" />
+    <None Include="Resources\PdfMerge.ruleset" />
+    <None Include="Docs\readme.doc" />
     <Content Include="readme.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="SplitMergeLib\CmdSchema.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
-    <None Include="to do list.docx" />
+    <None Include="Resources\packages.config" />
+    <None Include="Docs\to do list.docx" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

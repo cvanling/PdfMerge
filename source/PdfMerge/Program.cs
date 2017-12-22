@@ -67,28 +67,64 @@ namespace PdfMerge
         [STAThread]
         public static void Main()
         {
+            string cmdfile = string.Empty;
+            string outfile = string.Empty;
+
             string[] arguments = Environment.GetCommandLineArgs();
             if (arguments.Length > 2)
             {
-            DoAgain1:
-                SplitMergeCmdFile splitmerge = new SplitMergeCmdFile();
-                string cmdfile = arguments[1];
-                string outfile = arguments[2];
-                string err = splitmerge.DoSplitMerge(cmdfile, outfile);
-                if (err.Length > 0)
+                bool showGui = false;
+
+                while (true)
                 {
-                    DialogResult res = MessageBox.Show(err, "Error", MessageBoxButtons.RetryCancel);
-                    if (res == DialogResult.Retry)
+                    string err = ProcessCommandLine(arguments, out showGui, out cmdfile, out outfile);
+                    if (string.IsNullOrEmpty(err))
                     {
-                        goto DoAgain1;
+                        break;
                     }
+
+                    DialogResult res = MessageBox.Show(err, "Error", MessageBoxButtons.RetryCancel);
+                    if (res != DialogResult.Retry)
+                    {
+                        break;
+                    }
+
+                    // try again
                 }
 
-                if (arguments.Length == 4)
+                if (showGui == false)
                 {
-                    if (err.Length == 0 && arguments[3].ToUpper() == "/SHOWPDF")
+                    Application.Exit();
+                    return;
+                }
+            }
+
+            PdfMergeForm merge = new PdfMergeForm(cmdfile, outfile);
+            Application.Run(merge);
+        }
+
+        public static string ProcessCommandLine(string[] arguments, out bool showGui, out string cmdfile, out string outfile)
+        {
+            showGui = false;
+
+            SplitMergeCmdFile splitmerge = new SplitMergeCmdFile();
+            cmdfile = arguments[1];
+            outfile = arguments[2];
+            string err = splitmerge.DoSplitMerge(cmdfile, outfile);
+            if (err.Length > 0)
+            {
+                return err;
+            }
+
+            // process any additional argments
+            if (arguments.Length > 3)
+            {
+                for (int iArg = 3; iArg < arguments.Length; ++iArg)
+                {
+                    if (arguments[iArg].ToUpper() == "/SHOWPDF")
                     {
                         string v = GetViewer();
+
                         if (v.Length == 0)
                         {
                             System.Diagnostics.Process.Start("\"" + outfile + "\"");
@@ -98,14 +134,15 @@ namespace PdfMerge
                             System.Diagnostics.Process.Start(v, "\"" + outfile + "\"");
                         }
                     }
-                }
 
-                Application.Exit();
-                return;
+                    if (arguments[iArg].ToUpper() == "/SHOWGUI")
+                    {
+                        showGui = true;
+                    }
+                }
             }
 
-            PdfMergeForm merge = new PdfMergeForm();
-            Application.Run(merge);
+            return string.Empty;
         }
 
         public static string GetViewer()
