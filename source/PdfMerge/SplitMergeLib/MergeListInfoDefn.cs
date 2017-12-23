@@ -46,7 +46,7 @@
 
 namespace PdfMerge.SplitMergeLib
 {
-    public class MergeListInfoDefn
+    public class MergeListInfoDefn : System.ICloneable
     {
         public MergeListInfoDefn()
         {
@@ -102,6 +102,71 @@ namespace PdfMerge.SplitMergeLib
 
                 return s;
             }
+        }
+
+        public static bool Compare(MergeListInfoDefn m1, MergeListInfoDefn m2)
+        {
+            if (m1.Annotation != m2.Annotation)
+            {
+                return false;
+            }
+
+            if (m1.HasInfo != m2.HasInfo)
+            {
+                return false;
+            }
+
+            if (m1.InfoAuthor != m2.InfoAuthor)
+            {
+                return false;
+            }
+
+            if (m1.InfoSubject != m2.InfoSubject)
+            {
+                return false;
+            }
+
+            if (m1.InfoTitle != m2.InfoTitle)
+            {
+                return false;
+            }
+
+            if (m1.OutFilename != m2.OutFilename)
+            {
+                return false;
+            }
+
+            if (m1.PaginationFormat != m2.PaginationFormat)
+            {
+                return false;
+            }
+
+            if (m1.StartPage != m2.StartPage)
+            {
+                return false;
+            }
+
+            if (m1.NumberPages != m2.NumberPages)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public object Clone()
+        {
+            MergeListInfoDefn clone = new MergeListInfoDefn();
+            clone.Annotation = this.Annotation;
+            clone.HasInfo = this.HasInfo;
+            clone.InfoAuthor = this.InfoAuthor;
+            clone.InfoSubject = this.InfoSubject;
+            clone.InfoTitle = this.InfoTitle;
+            clone.OutFilename = this.OutFilename;
+            clone.PaginationFormat = this.PaginationFormat;
+            clone.StartPage = this.StartPage;
+            clone.NumberPages = this.NumberPages;
+            return clone;
         }
     }
 }

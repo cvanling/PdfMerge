@@ -71,13 +71,18 @@ namespace PdfMerge
     public partial class PdfMergeForm : Form
     {
         private SplitMergeCmdFile merger = new SplitMergeCmdFile();
+        private SplitMergeCmdFile mergerOrig = new SplitMergeCmdFile();
         private MruStripMenuInline mruMenu;
         private string currentFile = string.Empty;
         private List<ItemLevel> rowcolors = new List<ItemLevel>();
+        private bool saveCompleted = false;
 
         public PdfMergeForm(string cmdFile, string outFile)
         {
             this.InitializeComponent();
+
+            this.outBox.Text = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "merged.pdf");
+
             this.dataGrid.AllowDrop = true;
 
             this.mruMenu = new MruStripMenuInline(this.fileToolStripMenuItem1, this.recentToolStripMenuItem, new MruStripMenu.ClickedHandler(this.OnMruFile), Program.MruRegKey);
@@ -127,6 +132,7 @@ namespace PdfMerge
                 try
                 {
                     this.merger.Load(cmdFile);
+                    this.mergerOrig = (SplitMergeCmdFile)this.merger.Clone();
                     this.currentFile = cmdFile;
                     this.UpdateGrid();
                 }
@@ -159,12 +165,18 @@ namespace PdfMerge
             }
 
             this.merger.Load(filename);
+            this.mergerOrig = (SplitMergeCmdFile)this.merger.Clone();
             this.currentFile = filename;
             this.UpdateGrid();
         }
 
         private void NewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (this.PromptSave() == false)
+            {
+                return;
+            }
+
             this.merger.MergeListFileArray = new List<MergeListFiles>();
             this.currentFile = string.Empty;
             this.merger = new SplitMergeCmdFile();
@@ -173,6 +185,11 @@ namespace PdfMerge
 
         private void OpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (this.PromptSave() == false)
+            {
+                return;
+            }
+
             // show a file open dialog
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "Command Files (*.xml;*.lst)|*.xml;*.lst|All files (*.*)|*.*";
@@ -183,6 +200,7 @@ namespace PdfMerge
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 this.merger.Load(dlg.FileName);
+                this.mergerOrig = (SplitMergeCmdFile)this.merger.Clone();
                 this.mruMenu.AddFile(dlg.FileName);
                 this.currentFile = dlg.FileName;
             }
@@ -191,15 +209,39 @@ namespace PdfMerge
             this.UpdateGrid();
         }
 
+        private bool PromptSave()
+        {
+            this.UpdateFromGrid();
+            if (this.merger.MergeListFileArray.Count == 0)
+            {
+                return true;
+            }
+
+            if (SplitMergeCmdFile.Compare(this.merger, this.mergerOrig) == false)
+            {
+                DialogResult res = MessageBox.Show("Save changes?", "The merge information has been modified", MessageBoxButtons.YesNo);
+                if (res == DialogResult.Yes)
+                {
+                    this.saveCompleted = false;
+                    this.SaveToolStripMenuItem_Click(null, null);
+                    return this.saveCompleted;
+                }
+            }
+
+            return true;
+        }
+
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (this.currentFile == string.Empty)
             {
                 this.SaveAsToolStripMenuItem_Click(null, null);
+                return;
             }
 
             this.UpdateFromGrid();
             this.merger.Save(this.currentFile);
+            this.saveCompleted = true;
             this.UpdateGrid();
         }
 
@@ -216,12 +258,12 @@ namespace PdfMerge
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 this.merger.Save(dlg.FileName);
+                this.saveCompleted = true;
                 this.mruMenu.AddFile(dlg.FileName);
                 this.currentFile = dlg.FileName;
             }
 
             dlg.Dispose();
-
             this.UpdateGrid();
         }
 
@@ -608,6 +650,10 @@ namespace PdfMerge
         private void PdfMergeForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.mruMenu.SaveToRegistry();
+            if (this.PromptSave() == false)
+            {
+                e.Cancel = true;
+            }
         }
 
         private void ButtonSaveTo_Click(object sender, EventArgs e)

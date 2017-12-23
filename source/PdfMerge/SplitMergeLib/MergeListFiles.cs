@@ -9,8 +9,8 @@
 // iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.
 // See the readme.doc file included with this package.
 // =============================================================================
-// File: SplitMergeCmdFile.cs
-// Description: Top level class for merge/split from a command file
+// File: MergeListFiles.cs
+// Description: Definition for a single merge file entry
 // =============================================================================
 // Authors:
 //   Charles Van Lingen <mailto:charles.vanlingen@gmail.com>
@@ -102,6 +102,36 @@ namespace PdfMerge.SplitMergeLib
 
                 return s;
             }
+        }
+
+        public static bool Compare(MergeListFiles m1, MergeListFiles m2)
+        {
+            if (m1.Path != m2.Path)
+            {
+                return false;
+            }
+
+            if (m1.Pages != m2.Pages)
+            {
+                return false;
+            }
+
+            if (m1.Bookmark != m2.Bookmark)
+            {
+                return false;
+            }
+
+            if (m1.Level != m2.Level)
+            {
+                return false;
+            }
+
+            if (m1.Include != m2.Include)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public object Clone()

@@ -126,7 +126,7 @@ namespace PdfMerge.SplitMergeLib
     /// bookmarks from that file will not be imported.
     /// *********************************************************************************************
     /// </summary>
-    public class SplitMergeCmdFile
+    public class SplitMergeCmdFile : System.ICloneable
     {
         public SplitMergeCmdFile()
         {
@@ -137,6 +137,29 @@ namespace PdfMerge.SplitMergeLib
         public List<MergeListFiles> MergeListFileArray { get; set; }
 
         public MergeListInfoDefn MergeListInfo { get; set; }
+
+        public static bool Compare(SplitMergeCmdFile m1, SplitMergeCmdFile m2)
+        {
+            if (MergeListInfoDefn.Compare(m1.MergeListInfo, m2.MergeListInfo) == false)
+            {
+                return false;
+            }
+
+            if (m1.MergeListFileArray.Count != m2.MergeListFileArray.Count)
+            {
+                return false;
+            }
+
+            for (int iFile = 0; iFile < m1.MergeListFileArray.Count; ++iFile)
+            {
+                if (MergeListFiles.Compare(m1.MergeListFileArray[iFile], m2.MergeListFileArray[iFile]) == false)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
 
         public string DoSplitMerge(string commandFilename, string outputFilename)
         {
@@ -329,6 +352,19 @@ namespace PdfMerge.SplitMergeLib
             {
                 MessageBox.Show(err.Message);
             }
+        }
+
+        public object Clone()
+        {
+            SplitMergeCmdFile clone = new SplitMergeCmdFile();
+            clone.MergeListInfo = (MergeListInfoDefn)this.MergeListInfo.Clone();
+            clone.MergeListFileArray = new List<MergeListFiles>();
+            foreach (var mergeListFile in this.MergeListFileArray)
+            {
+                clone.MergeListFileArray.Add((MergeListFiles)mergeListFile.Clone());
+            }
+
+            return clone;
         }
 
         private void SaveAsciiCommandFile(string filename)
