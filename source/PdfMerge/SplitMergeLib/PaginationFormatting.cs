@@ -9,8 +9,8 @@
 // iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.
 // See the readme.doc file included with this package.
 // =============================================================================
-// File: MergeListInfoDefn.cs
-// Description: Definition of a merge item
+// File: PaginationFormatting.cs
+// Description: Pagination formats
 // =============================================================================
 // Authors:
 //   Charles Van Lingen <mailto:charles.vanlingen@gmail.com>
@@ -41,66 +41,51 @@
 //
 // Revision History:
 //
-//   1.0 Dec 22/2017 C. Van Lingen  <V2.00> Moved to separate class
+//   1.0 Dec 20/2017 C. Van Lingen  <V2.00> Initial release
 // =============================================================================
-
 namespace PdfMerge.SplitMergeLib
 {
-    public class MergeListInfoDefn
+    public class PaginationFormatting
     {
-        public MergeListInfoDefn()
+        public enum PaginationFormats
         {
-            this.HasInfo = false;
-            this.InfoTitle = string.Empty;
-            this.InfoSubject = string.Empty;
-            this.InfoAuthor = string.Empty;
-            this.StartPage = 1;
-            this.NumberPages = false;
-            this.Annotation = string.Empty;
-            this.OutFilename = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), "merged.pdf");
-            this.PaginationFormat = PaginationFormatting.PaginationFormats.PF_Page_1_of_N;
+            PF_Page_1_of_N = 0,
+            PF_1_fwdslash_N = 1,
+            PF_Page_1 = 2,
+            PF_1 = 3
         }
 
-        public PaginationFormatting.PaginationFormats PaginationFormat { get; set; }
-
-        public string InfoAuthor { get; set; }
-
-        public string InfoTitle { get; set; }
-
-        public string InfoSubject { get; set; }
-
-        public string OutFilename { get; set; }
-
-        public string Annotation { get; set; }
-
-        public bool NumberPages { get; set; }
-
-        public int StartPage { get; set; }
-
-        public bool HasInfo { get; set; }
-
-        /// <summary>
-        /// Gets ascii representation
-        /// </summary>
-        public string Descriptor
+        public static string GetFormattedPageString(int startPage, int page, int pageCount, PaginationFormats pageFmt)
         {
-            get
+            if (startPage == 1)
             {
-                string s = "[info];";
-                if (this.InfoTitle.Length > 0)
+                switch (pageFmt)
                 {
-                    s += this.InfoTitle;
-                    if (this.InfoSubject.Length > 0)
-                    {
-                        s += ";" + this.InfoSubject;
-                        if (this.InfoAuthor.Length > 0)
-                        {
-                            s += ";" + this.InfoAuthor;
-                        }
-                    }
+                    case PaginationFormats.PF_Page_1_of_N:
+                        return string.Format("Page {0} of {1}", page, pageCount);
+                    case PaginationFormats.PF_1_fwdslash_N:
+                        return string.Format("{0} / {1}", page, pageCount);
+                    case PaginationFormats.PF_Page_1:
+                        return string.Format("Page {0}", page);
+                    case PaginationFormats.PF_1:
+                        return string.Format("{0}", page);
+                    default:
+                        throw new System.Exception("Bad pagination format");
                 }
-
-                return s;
+            }
+            else
+            {
+                switch (pageFmt)
+                {
+                    case PaginationFormats.PF_Page_1_of_N:
+                    case PaginationFormats.PF_Page_1:
+                        return string.Format("Page {0}", page);
+                    case PaginationFormats.PF_1_fwdslash_N:
+                    case PaginationFormats.PF_1:
+                        return string.Format("{0}", page);
+                    default:
+                        throw new System.Exception("Bad pagination format");
+                }
             }
         }
     }

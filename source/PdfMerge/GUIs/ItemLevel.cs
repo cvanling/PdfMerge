@@ -9,8 +9,8 @@
 // iTextSharp is included as an unmodified DLL used per the terms of the GNU LGPL and the Mozilla Public License.
 // See the readme.doc file included with this package.
 // =============================================================================
-// File: PdfMergeForm.cs
-// Description: Main form for interactive merge definition
+// File: ItemLevel.cs
+// Description: Item level for interactive merge definition
 // =============================================================================
 // Authors:
 //   Charles Van Lingen <mailto:charles.vanlingen@gmail.com>
@@ -41,7 +41,7 @@
 //
 // Revision History:
 //
-//   1.0 Dec 20/2017 C. Van Lingen  <V2.00> Initial release
+//   1.0 Dec 22/2017 C. Van Lingen  <V2.00> Initial release
 // =============================================================================
 namespace PdfMerge
 {

@@ -63,6 +63,9 @@
     <Content Include="testfiles\mergetestcase1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="testfiles\unicodetest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="testfiles\Agenda.docx" />
     <Content Include="testfiles\Agenda.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

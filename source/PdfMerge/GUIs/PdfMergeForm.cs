@@ -46,6 +46,8 @@
 //                                  when files are moved to a different folder.
 //                                  Fixed error handling when using View button
 //                                  and file(s) are not found.
+//                                  Added support for pagination formats.
+//                                  Changed new command to clear out all fields.
 //   1.3 Oct 21/2012 C. Van Lingen  <V1.21> Added right click context menu for
 //                                  copying filenames to bookmarks and duplicating
 //                                  lines.  Added tooltips.
@@ -102,6 +104,24 @@ namespace PdfMerge
                 this.rowcolors.Add(new ItemLevel(Color.LightCyan, this.rowcolors.Count));
             }
 
+            this.comboBoxPageNumFormat.Items.Clear();
+            var values = Enum.GetValues(typeof(PaginationFormatting.PaginationFormats));
+            foreach (var fmt in values)
+            {
+                string s = fmt.ToString();
+                s = s.Replace("PF", string.Empty);
+                s = s.Replace("_", " ");
+                s = s.Replace("fwdslash", "/");
+                this.comboBoxPageNumFormat.Items.Add(s);
+            }
+
+            this.PaginationFormat = PaginationFormatting.PaginationFormats.PF_Page_1_of_N;
+
+            if (outFile != string.Empty)
+            {
+                this.outBox.Text = outFile;
+            }
+
             if (cmdFile != string.Empty)
             {
                 try
@@ -110,15 +130,23 @@ namespace PdfMerge
                     this.currentFile = cmdFile;
                     this.UpdateGrid();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // do nothing
+                    MessageBox.Show(ex.Message, "File Load Error", MessageBoxButtons.OK);
                 }
             }
+        }
 
-            if (outFile != string.Empty)
+        private PaginationFormatting.PaginationFormats PaginationFormat
+        {
+            get
             {
-                this.outBox.Text = outFile;
+                return (PaginationFormatting.PaginationFormats)this.comboBoxPageNumFormat.SelectedIndex;
+            }
+
+            set
+            {
+                this.comboBoxPageNumFormat.SelectedIndex = (int)value;
             }
         }
 
@@ -139,6 +167,7 @@ namespace PdfMerge
         {
             this.merger.MergeListFileArray = new List<MergeListFiles>();
             this.currentFile = string.Empty;
+            this.merger = new SplitMergeCmdFile();
             this.UpdateGrid();
         }
 
@@ -244,6 +273,8 @@ namespace PdfMerge
             {
                 this.textBoxAnnotate.Text = string.Empty;
             }
+
+            this.PaginationFormat = this.merger.MergeListInfo.PaginationFormat;
         }
 
         private void ButtonPickFile_Click(object sender, EventArgs e)
@@ -305,7 +336,8 @@ namespace PdfMerge
                         this.status,
                         startPageNum,
                         this.checkBoxNumberPages.Checked,
-                        this.textBoxAnnotate.Text);
+                        this.textBoxAnnotate.Text,
+                        this.PaginationFormat);
                     if (err.Length == 0)
                     {
                         break;
@@ -382,6 +414,8 @@ namespace PdfMerge
             }
 
             this.merger.MergeListInfo.Annotation = this.textBoxAnnotate.Text;
+
+            this.merger.MergeListInfo.PaginationFormat = this.PaginationFormat;
         }
 
         private void PdfViewerSelect_Click(object sender, EventArgs e)
@@ -771,6 +805,5 @@ namespace PdfMerge
             }
         }
         #endregion
-
     }
 }

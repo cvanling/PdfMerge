@@ -41,6 +41,9 @@
 //
 // Revision History:
 //
+//   1.2 Dec 22/2018 C. Van Lingen  <V2.00> Added pagination formatting
+//                                  Fixed issue with not all command file settings
+//                                  used when opened from command line
 //   1.1 Oct  7/2012 C. Van Lingen  <V1.20> Migrated to PdfSharp 1.32
 //                                  Added use of CompatiblePdfReader based
 //                                  on iTextSharp DLL
@@ -151,10 +154,10 @@ namespace PdfMerge.SplitMergeLib
 
         public void Finish(string outfilename)
         {
-            this.Finish(outfilename, null, false, 1);
+            this.Finish(outfilename, null, false, 1, PaginationFormatting.PaginationFormats.PF_Page_1_of_N);
         }
 
-        public void Finish(string outfilename, string annotate, bool numberPages, int startPageNum)
+        public void Finish(string outfilename, string annotate, bool numberPages, int startPageNum, PaginationFormatting.PaginationFormats paginationFormat)
         {
             this.outputDocument.Info.Author = this.Author;
             if (this.Subject.Length > 0)
@@ -171,7 +174,9 @@ namespace PdfMerge.SplitMergeLib
             this.bm.WriteToDoc(ref outline, ref this.outputDocument, 0);
 
             #region Add Page Numbering
-            XFont font = new XFont("Verdana", 9, XFontStyle.Bold);
+
+            XPdfFontOptions options = new XPdfFontOptions(PdfFontEncoding.Unicode);
+            XFont font = new XFont("Verdana", 9, XFontStyle.Bold, options);
             XStringFormat pageNumFormat = new XStringFormat();
             pageNumFormat.Alignment = XStringAlignment.Far;
             pageNumFormat.LineAlignment = XLineAlignment.Far;
@@ -192,24 +197,18 @@ namespace PdfMerge.SplitMergeLib
                 {
                     box = page.MediaBox.ToXRect();
                     box.Inflate(-30, -20);
-                    if (startPageNum == 1)
-                    {
-                        gfx.DrawString(
-                            string.Format("Page {0} of {1}", pageNumber, pageCount),
-                          font,
-                          XBrushes.Black,
-                          box,
-                          pageNumFormat);
-                    }
-                    else
-                    {
-                        gfx.DrawString(
-                            string.Format("Page {0}", pageNumber),
-                          font,
-                          XBrushes.Black,
-                          box,
-                          pageNumFormat);
-                    }
+                    string pageLabel = PaginationFormatting.GetFormattedPageString(
+                        startPageNum,
+                        pageNumber,
+                        pageCount,
+                        paginationFormat);
+
+                    gfx.DrawString(
+                      pageLabel,
+                      font,
+                      XBrushes.Black,
+                      box,
+                      pageNumFormat);
                 }
 
                 if (string.IsNullOrEmpty(annotate) == false)

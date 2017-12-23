@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PdfMergeForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,12 +69,12 @@
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.status = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.comboBoxPageNumFormat = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.checkBoxNumberPages = new System.Windows.Forms.CheckBox();
             this.textBoxAnnotate = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.textBoxStartPage = new System.Windows.Forms.TextBox();
             this.buttonPickFile = new System.Windows.Forms.Button();
             this.ViewLast = new System.Windows.Forms.Button();
@@ -83,6 +83,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.buttonSelectSaveTo = new System.Windows.Forms.Button();
             this.outBox = new System.Windows.Forms.TextBox();
+            this.status = new System.Windows.Forms.ListBox();
             this.dataGrid = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -92,6 +93,7 @@
             this.Column5 = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBoxFooter = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -99,6 +101,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
+            this.groupBoxFooter.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -115,7 +118,7 @@
             this.toolStripButton3});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(784, 39);
+            this.menuStrip1.Size = new System.Drawing.Size(793, 39);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "Open";
             // 
@@ -141,7 +144,7 @@
             this.newToolStripMenuItem.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(164, 34);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newToolStripMenuItem.Text = "&New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.NewToolStripMenuItem_Click);
             // 
@@ -151,14 +154,14 @@
             this.openToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openToolStripMenuItem1.Name = "openToolStripMenuItem1";
             this.openToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem1.Size = new System.Drawing.Size(164, 34);
+            this.openToolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem1.Text = "&Open";
             this.openToolStripMenuItem1.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // toolStripSeparator
             // 
             this.toolStripSeparator.Name = "toolStripSeparator";
-            this.toolStripSeparator.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator.Size = new System.Drawing.Size(143, 6);
             // 
             // saveToolStripMenuItem1
             // 
@@ -166,37 +169,37 @@
             this.saveToolStripMenuItem1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
             this.saveToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(164, 34);
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem1.Text = "&Save";
             this.saveToolStripMenuItem1.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem1
             // 
             this.saveAsToolStripMenuItem1.Name = "saveAsToolStripMenuItem1";
-            this.saveAsToolStripMenuItem1.Size = new System.Drawing.Size(164, 34);
+            this.saveAsToolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
             this.saveAsToolStripMenuItem1.Text = "Save &As";
             this.saveAsToolStripMenuItem1.Click += new System.EventHandler(this.SaveAsToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(143, 6);
             // 
             // recentToolStripMenuItem
             // 
             this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
-            this.recentToolStripMenuItem.Size = new System.Drawing.Size(164, 34);
+            this.recentToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.recentToolStripMenuItem.Text = "Recent";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(161, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // exitToolStripMenuItem1
             // 
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
-            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(164, 34);
+            this.exitToolStripMenuItem1.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem1.Text = "E&xit";
             this.exitToolStripMenuItem1.Click += new System.EventHandler(this.ExitToolStripMenuItem1_Click);
             // 
@@ -365,8 +368,8 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 106F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(784, 495);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(793, 495);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // panel1
@@ -378,9 +381,9 @@
             this.panel1.Controls.Add(this.buttonEdit);
             this.panel1.Controls.Add(this.buttonDown);
             this.panel1.Controls.Add(this.buttonUp);
-            this.panel1.Location = new System.Drawing.Point(737, 3);
+            this.panel1.Location = new System.Drawing.Point(746, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(44, 383);
+            this.panel1.Size = new System.Drawing.Size(44, 339);
             this.panel1.TabIndex = 1;
             // 
             // buttonRemove
@@ -401,7 +404,7 @@
             // 
             this.buttonEdit.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.buttonEdit.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.buttonEdit.Location = new System.Drawing.Point(2, 343);
+            this.buttonEdit.Location = new System.Drawing.Point(2, 299);
             this.buttonEdit.Name = "buttonEdit";
             this.buttonEdit.Size = new System.Drawing.Size(40, 40);
             this.buttonEdit.TabIndex = 21;
@@ -443,47 +446,59 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.SetColumnSpan(this.panel2, 2);
-            this.panel2.Controls.Add(this.status);
+            this.panel2.Controls.Add(this.groupBoxFooter);
             this.panel2.Controls.Add(this.groupBox2);
             this.panel2.Controls.Add(this.buttonPickFile);
             this.panel2.Controls.Add(this.ViewLast);
             this.panel2.Controls.Add(this.Merge);
             this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Location = new System.Drawing.Point(3, 392);
+            this.panel2.Controls.Add(this.status);
+            this.panel2.Location = new System.Drawing.Point(3, 348);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(778, 100);
+            this.panel2.Size = new System.Drawing.Size(787, 144);
             this.panel2.TabIndex = 2;
-            // 
-            // status
-            // 
-            this.status.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.status.Location = new System.Drawing.Point(0, 0);
-            this.status.Name = "status";
-            this.status.Size = new System.Drawing.Size(778, 100);
-            this.status.TabIndex = 10;
-            this.status.Visible = false;
             // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.comboBoxPageNumFormat);
+            this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.checkBoxNumberPages);
-            this.groupBox2.Controls.Add(this.textBoxAnnotate);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.textBoxStartPage);
             this.groupBox2.Location = new System.Drawing.Point(116, 54);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(449, 40);
+            this.groupBox2.Size = new System.Drawing.Size(458, 40);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Page Numbering and Foot Note";
+            // 
+            // comboBoxPageNumFormat
+            // 
+            this.comboBoxPageNumFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboBoxPageNumFormat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxPageNumFormat.FormattingEnabled = true;
+            this.comboBoxPageNumFormat.Location = new System.Drawing.Point(288, 15);
+            this.comboBoxPageNumFormat.Name = "comboBoxPageNumFormat";
+            this.comboBoxPageNumFormat.Size = new System.Drawing.Size(164, 21);
+            this.comboBoxPageNumFormat.TabIndex = 17;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(241, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(42, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Format:";
             // 
             // checkBoxNumberPages
             // 
             this.checkBoxNumberPages.AutoSize = true;
             this.checkBoxNumberPages.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBoxNumberPages.Location = new System.Drawing.Point(12, 19);
+            this.checkBoxNumberPages.Location = new System.Drawing.Point(8, 19);
             this.checkBoxNumberPages.Name = "checkBoxNumberPages";
             this.checkBoxNumberPages.Size = new System.Drawing.Size(99, 17);
             this.checkBoxNumberPages.TabIndex = 11;
@@ -495,35 +510,26 @@
             // 
             this.textBoxAnnotate.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxAnnotate.Location = new System.Drawing.Point(240, 16);
+            this.textBoxAnnotate.Location = new System.Drawing.Point(6, 16);
             this.textBoxAnnotate.Name = "textBoxAnnotate";
-            this.textBoxAnnotate.Size = new System.Drawing.Size(203, 20);
+            this.textBoxAnnotate.Size = new System.Drawing.Size(446, 20);
             this.textBoxAnnotate.TabIndex = 15;
             this.toolTip1.SetToolTip(this.textBoxAnnotate, "Optional footer text for each page");
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(122, 20);
+            this.label1.Location = new System.Drawing.Point(133, 20);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(32, 13);
             this.label1.TabIndex = 12;
             this.label1.Text = "Start:";
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(202, 20);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(40, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "Footer:";
-            // 
             // textBoxStartPage
             // 
-            this.textBoxStartPage.Location = new System.Drawing.Point(153, 16);
+            this.textBoxStartPage.Location = new System.Drawing.Point(171, 16);
             this.textBoxStartPage.Name = "textBoxStartPage";
-            this.textBoxStartPage.Size = new System.Drawing.Size(35, 20);
+            this.textBoxStartPage.Size = new System.Drawing.Size(36, 20);
             this.textBoxStartPage.TabIndex = 13;
             this.textBoxStartPage.Text = "1";
             this.toolTip1.SetToolTip(this.textBoxStartPage, "Starting page number");
@@ -541,7 +547,7 @@
             // ViewLast
             // 
             this.ViewLast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ViewLast.Location = new System.Drawing.Point(673, 8);
+            this.ViewLast.Location = new System.Drawing.Point(682, 8);
             this.ViewLast.Name = "ViewLast";
             this.ViewLast.Size = new System.Drawing.Size(96, 86);
             this.ViewLast.TabIndex = 8;
@@ -553,7 +559,7 @@
             // 
             this.Merge.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.Merge.BackColor = System.Drawing.Color.Lime;
-            this.Merge.Location = new System.Drawing.Point(571, 8);
+            this.Merge.Location = new System.Drawing.Point(580, 8);
             this.Merge.Name = "Merge";
             this.Merge.Size = new System.Drawing.Size(96, 86);
             this.Merge.TabIndex = 7;
@@ -571,7 +577,7 @@
             this.groupBox1.Controls.Add(this.outBox);
             this.groupBox1.Location = new System.Drawing.Point(116, 8);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(449, 40);
+            this.groupBox1.Size = new System.Drawing.Size(458, 40);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Save to PDF";
@@ -588,7 +594,7 @@
             // buttonSelectSaveTo
             // 
             this.buttonSelectSaveTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonSelectSaveTo.Location = new System.Drawing.Point(419, 14);
+            this.buttonSelectSaveTo.Location = new System.Drawing.Point(428, 14);
             this.buttonSelectSaveTo.Name = "buttonSelectSaveTo";
             this.buttonSelectSaveTo.Size = new System.Drawing.Size(24, 23);
             this.buttonSelectSaveTo.TabIndex = 6;
@@ -602,10 +608,19 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.outBox.Location = new System.Drawing.Point(67, 16);
             this.outBox.Name = "outBox";
-            this.outBox.Size = new System.Drawing.Size(346, 20);
+            this.outBox.Size = new System.Drawing.Size(355, 20);
             this.outBox.TabIndex = 5;
             this.outBox.Text = "output.pdf";
             this.toolTip1.SetToolTip(this.outBox, "Merged PDF will be saved to this filename");
+            // 
+            // status
+            // 
+            this.status.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.status.Location = new System.Drawing.Point(0, 0);
+            this.status.Name = "status";
+            this.status.Size = new System.Drawing.Size(787, 144);
+            this.status.TabIndex = 10;
+            this.status.Visible = false;
             // 
             // dataGrid
             // 
@@ -617,14 +632,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle16.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle16.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle16.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle16.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle16.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle16.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle16;
             this.dataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -633,28 +648,28 @@
             this.Column4,
             this.Import,
             this.Column5});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle17.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle17.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle17.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle17.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle17.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle17.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGrid.DefaultCellStyle = dataGridViewCellStyle17;
             this.dataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataGrid.Location = new System.Drawing.Point(3, 3);
             this.dataGrid.Name = "dataGrid";
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle18.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle18.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle18.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle18.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle18.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle18.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle18;
             this.dataGrid.RowHeadersVisible = false;
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGrid.Size = new System.Drawing.Size(728, 383);
+            this.dataGrid.Size = new System.Drawing.Size(737, 339);
             this.dataGrid.TabIndex = 0;
             this.dataGrid.CurrentCellDirtyStateChanged += new System.EventHandler(this.DataGrid_CurrentCellDirtyStateChanged);
             this.dataGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.DataGrid_DragDrop);
@@ -715,11 +730,23 @@
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
+            // groupBoxFooter
+            // 
+            this.groupBoxFooter.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBoxFooter.Controls.Add(this.textBoxAnnotate);
+            this.groupBoxFooter.Location = new System.Drawing.Point(116, 100);
+            this.groupBoxFooter.Name = "groupBoxFooter";
+            this.groupBoxFooter.Size = new System.Drawing.Size(458, 39);
+            this.groupBoxFooter.TabIndex = 12;
+            this.groupBoxFooter.TabStop = false;
+            this.groupBoxFooter.Text = "Footnote";
+            // 
             // PdfMergeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 534);
+            this.ClientSize = new System.Drawing.Size(793, 534);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -738,6 +765,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).EndInit();
+            this.groupBoxFooter.ResumeLayout(false);
+            this.groupBoxFooter.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -790,7 +819,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.CheckBox checkBoxNumberPages;
         private System.Windows.Forms.TextBox textBoxAnnotate;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxStartPage;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
@@ -804,5 +832,8 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn Column5;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboBoxPageNumFormat;
+        private System.Windows.Forms.GroupBox groupBoxFooter;
     }
 }

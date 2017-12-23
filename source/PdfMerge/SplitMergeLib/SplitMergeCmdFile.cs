@@ -140,15 +140,10 @@ namespace PdfMerge.SplitMergeLib
 
         public string DoSplitMerge(string commandFilename, string outputFilename)
         {
-            return this.DoSplitMerge(commandFilename, outputFilename, null, 1, false, null);
+            return this.DoSplitMerge(commandFilename, outputFilename, null, 1, false, null, PaginationFormatting.PaginationFormats.PF_Page_1_of_N);
         }
 
-        public string DoSplitMerge(string outputFilename, ListBox lbStat)
-        {
-            return this.DoSplitMerge(null, outputFilename, lbStat, 1, false, null);
-        }
-
-        public string DoSplitMerge(string commandFilename, string outputFilename, ListBox lbStat, int startPageNumber, bool numberPages, string annotation)
+        public string DoSplitMerge(string commandFilename, string outputFilename, ListBox lbStat, int startPageNumber, bool numberPages, string annotation, PaginationFormatting.PaginationFormats paginationFormat)
         {
             PdfSharpSplitterMerger psm = null;
 
@@ -189,6 +184,15 @@ namespace PdfMerge.SplitMergeLib
                     psm.Title = this.MergeListInfo.InfoTitle;
                     psm.Subject = this.MergeListInfo.InfoSubject;
                     psm.Author = this.MergeListInfo.InfoAuthor;
+                }
+
+                if (commandFilename != null)
+                {
+                    // get options from command file
+                    numberPages = this.MergeListInfo.NumberPages;
+                    annotation = this.MergeListInfo.Annotation;
+                    paginationFormat = this.MergeListInfo.PaginationFormat;
+                    startPageNumber = this.MergeListInfo.StartPage;
                 }
 
                 foreach (MergeListFiles merge in this.MergeListFileArray)
@@ -249,7 +253,7 @@ namespace PdfMerge.SplitMergeLib
                 }
 
                 // this writes out the merged files
-                psm.Finish(outputFilename, annotation, numberPages, startPageNumber);
+                psm.Finish(outputFilename, annotation, numberPages, startPageNumber, paginationFormat);
             }
             catch (Exception err)
             {
@@ -505,6 +509,8 @@ namespace PdfMerge.SplitMergeLib
                 writer.WriteElementString("startpage", this.MergeListInfo.StartPage.ToString());
             }
 
+            writer.WriteElementString("paginationformat", ((int)this.MergeListInfo.PaginationFormat).ToString());
+
             writer.WriteEndElement();
             #endregion
 
@@ -658,6 +664,17 @@ namespace PdfMerge.SplitMergeLib
                         case "startpage":
                             this.MergeListInfo.StartPage = int.Parse(reader.ReadElementContentAsString());
                             this.MergeListInfo.NumberPages = true;
+                            break;
+                        case "paginationformat":
+                            try
+                            {
+                                this.MergeListInfo.PaginationFormat = (PaginationFormatting.PaginationFormats)int.Parse(reader.ReadElementContentAsString());
+                            }
+                            catch
+                            {
+                                throw new Exception("Invalid value for pagination format in command file");
+                            }
+
                             break;
                     }
                 }

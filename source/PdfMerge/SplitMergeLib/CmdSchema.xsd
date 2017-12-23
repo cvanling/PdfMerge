@@ -6,28 +6,29 @@
           <xs:complexType>
             <xs:sequence>
               <xs:element type="xs:string" name="path"/>
-              <xs:element type="xs:string" name="pages"/>
-              <xs:element type="xs:string" name="bookmark"/>
+              <xs:element type="xs:string" name="pages" minOccurs="0"/>
+              <xs:element type="xs:string" name="bookmark" minOccurs="0"/>
               <xs:element type="xs:byte" name="level" minOccurs="0"/>
             </xs:sequence>
             <xs:attribute type="xs:byte" name="exclude" use="optional"/>
           </xs:complexType>
         </xs:element>
-        <xs:element name="info">
+        <xs:element name="info"  minOccurs="0">
           <xs:complexType>
             <xs:sequence>
-              <xs:element type="xs:string" name="author"/>
-              <xs:element type="xs:string" name="subject"/>
-              <xs:element type="xs:string" name="title"/>
+              <xs:element type="xs:string" name="author" minOccurs="0"/>
+              <xs:element type="xs:string" name="subject" minOccurs="0"/>
+              <xs:element type="xs:string" name="title" minOccurs="0"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="options">
+        <xs:element name="options" minOccurs="0">
           <xs:complexType>
             <xs:sequence>
-              <xs:element type="xs:string" name="outfile"/>
-              <xs:element type="xs:string" name="annotation"/>
-              <xs:element type="xs:byte" name="startpage"/>
+              <xs:element type="xs:string" name="outfile" minOccurs="0"/>
+              <xs:element type="xs:string" name="annotation" minOccurs="0"/>
+              <xs:element type="xs:byte" name="startpage" minOccurs="0"/>
+              <xs:element type="xs:byte" name="paginationformat" minOccurs="0"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -151,6 +151,7 @@
     </Compile>
     <Compile Include="SplitMergeLib\MergeListFiles.cs" />
     <Compile Include="SplitMergeLib\MergeListInfoDefn.cs" />
+    <Compile Include="SplitMergeLib\PaginationFormatting.cs" />
     <Compile Include="Utils\FindCommonDirectoryPath.cs" />
     <Compile Include="SplitMergeLib\PdfBookmark.cs">
       <SubType>Code</SubType>
