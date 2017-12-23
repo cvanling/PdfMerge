@@ -242,6 +242,7 @@ namespace PdfMerge
             this.UpdateFromGrid();
             this.merger.Save(this.currentFile);
             this.saveCompleted = true;
+            this.mergerOrig = (SplitMergeCmdFile)this.merger.Clone();
             this.UpdateGrid();
         }
 
@@ -259,6 +260,7 @@ namespace PdfMerge
             {
                 this.merger.Save(dlg.FileName);
                 this.saveCompleted = true;
+                this.mergerOrig = (SplitMergeCmdFile)this.merger.Clone();
                 this.mruMenu.AddFile(dlg.FileName);
                 this.currentFile = dlg.FileName;
             }
@@ -720,6 +722,7 @@ namespace PdfMerge
 
         private void UndoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            this.merger = (SplitMergeCmdFile)this.mergerOrig.Clone();
             this.UpdateGrid();
         }
 
