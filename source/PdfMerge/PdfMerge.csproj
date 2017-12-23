@@ -29,6 +29,9 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -43,9 +46,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -162,7 +162,9 @@
     </Compile>
     <Compile Include="SplitMergeLib\PdfSharpSplitterMerger.cs" />
     <Compile Include="Program.cs" />
-    <Content Include="SplitMergeLib\CmdSample.xml" />
+    <Content Include="SplitMergeLib\CmdSample.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <EmbeddedResource Include="GUIs\InfoForm.resx">
       <DependentUpon>InfoForm.cs</DependentUpon>
       <SubType>Designer</SubType>
