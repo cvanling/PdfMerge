@@ -41,6 +41,9 @@
 //
 // Revision History:
 //
+//   1.5 Jan 27/2018 C. Van Lingen  <V2.01> Improvements to page list input
+//                                  Added code to create file for unit testing
+//
 //   1.4 Dec 20/2017 C. Van Lingen  <V2.00> Migrated to PdfSharp 1.50 beta 4c
 //                                  Automatically rebuild filenames if possible
 //                                  when files are moved to a different folder
@@ -68,6 +71,7 @@ namespace PdfMerge.SplitMergeLib
     using System.IO;
     using System.Windows.Forms;
     using System.Xml;
+    using System.Text;
 
     /// <summary>
     /// *********************************************************************************************
@@ -161,14 +165,11 @@ namespace PdfMerge.SplitMergeLib
             return true;
         }
 
-        public string DoSplitMerge(string commandFilename, string outputFilename)
-        {
-            return this.DoSplitMerge(commandFilename, outputFilename, null, 1, false, null, PaginationFormatting.PaginationFormats.PF_Page_1_of_N);
-        }
-
-        public string DoSplitMerge(string commandFilename, string outputFilename, ListBox lbStat, int startPageNumber, bool numberPages, string annotation, PaginationFormatting.PaginationFormats paginationFormat)
+        public string DoSplitMerge(string commandFilename, string outputFilename, ListBox lbStat, int startPageNumber, bool numberPages, string annotation, PaginationFormatting.PaginationFormats paginationFormat, bool createTestInfo = false)
         {
             PdfSharpSplitterMerger psm = null;
+            int page = 1;
+            int bmCount = 0;
 
             if (commandFilename != null)
             {
@@ -200,8 +201,6 @@ namespace PdfMerge.SplitMergeLib
             {
                 psm = new PdfSharpSplitterMerger();
 
-                int page = 1;
-
                 if (this.MergeListInfo.HasInfo == true)
                 {
                     psm.Title = this.MergeListInfo.InfoTitle;
@@ -222,47 +221,23 @@ namespace PdfMerge.SplitMergeLib
                 {
                     line = merge.Descriptor;
 
-                        string infile = merge.Path;
-                        string pagelst = merge.Pages;
+                    string infile = merge.Path;
+                    string pagelst = merge.Pages;
 
-                        string file_add = infile;
-                        if (lbStat != null)
-                        {
-                            lbStat.Items.Add(line);
-                            lbStat.TopIndex = lbStat.Items.Count - 1;
-                            lbStat.Refresh();
-                        }
-
-                        // build the page array
-                        string[] pagearr = pagelst.Split(new char[] { '-' });
-                        int start = 0;
-                        int end = 0;
-                        ArrayList ps = new ArrayList();
-                        try
-                        {
-                            start = int.Parse(pagearr[0]);
-                            end = start;
-                            if (pagearr.Length > 1)
-                        {
-                            end = int.Parse(pagearr[1]);
-                        }
-
-                        if (end > 0)
-                        {
-                            for (int x = start; x <= end; ++x)
-                            {
-                                ps.Add(x - 1);
-                            }
-                        }
-                    }
-                        catch
-                        {
-                        }
-
-                        // merge the input file
-                        if (ps.Count > 0)
+                    string file_add = infile;
+                    if (lbStat != null)
                     {
-                        page += psm.Add(file_add, ps.ToArray(typeof(int)) as int[]);
+                        lbStat.Items.Add(line);
+                        lbStat.TopIndex = lbStat.Items.Count - 1;
+                        lbStat.Refresh();
+                    }
+
+                    List<int> ps = this.ExtractPageList(pagelst);
+
+                    // merge the input file
+                    if (ps.Count > 0)
+                    {
+                        page += psm.Add(file_add, ps.ToArray());
                     }
                     else
                     {
@@ -271,12 +246,27 @@ namespace PdfMerge.SplitMergeLib
 
                     // add bookmarks
                     string rootTitle = merge.Bookmark;
-                        int level = merge.Level;
-                        psm.AddBookmarksFromFile(rootTitle, level, merge.Include, line);
+                    int level = merge.Level;
+                    bmCount += psm.AddBookmarksFromFile(rootTitle, level, merge.Include, line);
                 }
 
                 // this writes out the merged files
                 psm.Finish(outputFilename, annotation, numberPages, startPageNumber, paginationFormat);
+
+                if (createTestInfo)
+                {
+                    SortedDictionary<string, string> report = new SortedDictionary<string, string>();
+                    report.Add("MergeListFileArrayCount", this.MergeListFileArray.Count.ToString());
+                    report.Add("PageCount", (page-1).ToString());
+                    report.Add("BookMarkCount", bmCount.ToString());
+                    StringBuilder info = new StringBuilder();
+                    foreach (KeyValuePair<string, string> kvp in report)
+                    {
+                        info.AppendFormat("{0}={1}\r\n", kvp.Key, kvp.Value);
+                    }
+
+                    File.WriteAllText(outputFilename + ".info", info.ToString());
+                }
             }
             catch (Exception err)
             {
@@ -498,10 +488,11 @@ namespace PdfMerge.SplitMergeLib
                 if (mergeItem.Bookmark != null)
                 {
                     writer.WriteElementString("bookmark", mergeItem.Bookmark);
-                    if (mergeItem.Level > 0)
-                    {
-                        writer.WriteElementString("level", XmlConvert.ToString(mergeItem.Level));
-                    }
+                }
+
+                if (mergeItem.Level > 0)
+                {
+                    writer.WriteElementString("level", XmlConvert.ToString(mergeItem.Level));
                 }
 
                 writer.WriteEndElement();
@@ -553,72 +544,6 @@ namespace PdfMerge.SplitMergeLib
             writer.WriteFullEndElement();
 
             writer.Close();
-        }
-
-        private void ResolvePathsIfFoldersMoved(string cmdFileName, int missingCount)
-        {
-            // first get a list of folders used in the plan
-            List<string> planFolders = new List<string>();
-            foreach (MergeListFiles mergeElement in this.MergeListFileArray)
-            {
-                string folder = Path.GetDirectoryName(mergeElement.Path);
-                if (planFolders.Contains(folder) == false)
-                {
-                    planFolders.Add(folder);
-                }
-            }
-
-            if (planFolders.Count < 1)
-            {
-                return;
-            }
-
-            // find the common path
-            string commonPath = FindCommonDirectoryPath.FindCommonPath(planFolders);
-
-            string findPath = Path.GetDirectoryName(cmdFileName);
-            while (true)
-            {
-                if (this.CheckMissing(commonPath, findPath) == 0)
-                {
-                    break;
-                }
-
-                if (Directory.GetParent(findPath) == null)
-                {
-                    return;
-                }
-
-                findPath = Directory.GetParent(findPath).FullName;
-            }
-
-            // all found - go ahead and adjust
-            this.AdjustFolders(commonPath, findPath);
-        }
-
-        private int CheckMissing(string oldCommonFolder, string newCommonFolder)
-        {
-            int countMissing = 0;
-            foreach (MergeListFiles mergeElement in this.MergeListFileArray)
-            {
-                string newFileName = mergeElement.Path.Replace(oldCommonFolder, newCommonFolder);
-                if (File.Exists(newFileName) == false && File.Exists(mergeElement.Path) == false)
-                {
-                    ++countMissing;
-                }
-            }
-
-            return countMissing;
-        }
-
-        private void AdjustFolders(string oldCommonFolder, string newCommonFolder)
-        {
-            foreach (MergeListFiles mergeElement in this.MergeListFileArray)
-            {
-                mergeElement.Path = mergeElement.Path.Replace(oldCommonFolder, newCommonFolder);
-            }
-
-            this.MergeListInfo.OutFilename = this.MergeListInfo.OutFilename.Replace(oldCommonFolder, newCommonFolder);
         }
 
         private int ReadXmlCommandFile(string filename)
@@ -724,6 +649,110 @@ namespace PdfMerge.SplitMergeLib
             reader.Close();
 
             return fileNotFoundCount;
+        }
+
+        private void ResolvePathsIfFoldersMoved(string cmdFileName, int missingCount)
+        {
+            // first get a list of folders used in the plan
+            List<string> planFolders = new List<string>();
+            foreach (MergeListFiles mergeElement in this.MergeListFileArray)
+            {
+                string folder = Path.GetDirectoryName(mergeElement.Path);
+                if (planFolders.Contains(folder) == false)
+                {
+                    planFolders.Add(folder);
+                }
+            }
+
+            if (planFolders.Count < 1)
+            {
+                return;
+            }
+
+            // find the common path
+            string commonPath = FindCommonDirectoryPath.FindCommonPath(planFolders);
+
+            string findPath = Path.GetDirectoryName(cmdFileName);
+            while (true)
+            {
+                if (this.CheckMissing(commonPath, findPath) == 0)
+                {
+                    break;
+                }
+
+                if (Directory.GetParent(findPath) == null)
+                {
+                    return;
+                }
+
+                findPath = Directory.GetParent(findPath).FullName;
+            }
+
+            // all found - go ahead and adjust
+            this.AdjustFolders(commonPath, findPath);
+        }
+
+        private int CheckMissing(string oldCommonFolder, string newCommonFolder)
+        {
+            int countMissing = 0;
+            foreach (MergeListFiles mergeElement in this.MergeListFileArray)
+            {
+                string newFileName = mergeElement.Path.Replace(oldCommonFolder, newCommonFolder);
+                if (File.Exists(newFileName) == false && File.Exists(mergeElement.Path) == false)
+                {
+                    ++countMissing;
+                }
+            }
+
+            return countMissing;
+        }
+
+        private void AdjustFolders(string oldCommonFolder, string newCommonFolder)
+        {
+            foreach (MergeListFiles mergeElement in this.MergeListFileArray)
+            {
+                mergeElement.Path = mergeElement.Path.Replace(oldCommonFolder, newCommonFolder);
+            }
+
+            this.MergeListInfo.OutFilename = this.MergeListInfo.OutFilename.Replace(oldCommonFolder, newCommonFolder);
+        }
+
+        private List<int> ExtractPageList(string pageListStr)
+        {
+            List<int> pageListAry = new List<int>();
+
+            // first split to sections based on ; or , separators
+            string[] pageSections = pageListStr.Split(new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (string pageSection in pageSections)
+            {
+                // build the page array
+                string[] pagearr = pageSection.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+                int start = 0;
+                int end = 0;
+                try
+                {
+                    start = int.Parse(pagearr[0]);
+                    end = start;
+                    if (pagearr.Length > 1)
+                    {
+                        end = int.Parse(pagearr[1]);
+                    }
+
+                    if (end > 0)
+                    {
+                        for (int x = start; x <= end; ++x)
+                        {
+                            pageListAry.Add(x - 1);
+                        }
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return pageListAry;
         }
     }
 }

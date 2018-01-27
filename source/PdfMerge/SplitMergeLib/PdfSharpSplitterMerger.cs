@@ -41,7 +41,9 @@
 //
 // Revision History:
 //
-//   1.2 Dec 22/2018 C. Van Lingen  <V2.00> Added pagination formatting
+//   1.3 Jan 27/2018 C. Van Lingen  <V2.01> Improvements to page list input
+//                                  Added code to create file for unit testing
+//   1.2 Dec 22/2017 C. Van Lingen  <V2.00> Added pagination formatting
 //                                  Fixed issue with not all command file settings
 //                                  used when opened from command line
 //   1.1 Oct  7/2012 C. Van Lingen  <V1.20> Migrated to PdfSharp 1.32
@@ -227,8 +229,10 @@ namespace PdfMerge.SplitMergeLib
             this.bm.Clear();
         }
 
-        public void AddBookmarksFromFile(string rootTitle, int level, bool addBookmarksFromFiles, string warning_ref)
+        public int AddBookmarksFromFile(string rootTitle, int level, bool addBookmarksFromFiles, string warning_ref)
         {
+            int bmCount = 0;
+
             if (this.inputDocument == null)
             {
                 throw new Exception("Add document before adding bookmarks");
@@ -251,16 +255,18 @@ namespace PdfMerge.SplitMergeLib
                 if (title != null)
                 {
                     this.bm.AddBookmark(title, page, level);
+                    ++bmCount;
+
                     if (addBookmarksFromFiles == true)
                     {
-                        this.DoAddBookmarksFromFile(ref this.bm, page, level + 1);
+                        bmCount += this.DoAddBookmarksFromFile(ref this.bm, page, level + 1);
                     }
                 }
                 else
                 {
                     if (addBookmarksFromFiles == true)
                     {
-                        this.DoAddBookmarksFromFile(ref this.bm, page, level); // level was 1??
+                        bmCount += this.DoAddBookmarksFromFile(ref this.bm, page, level); // level was 1??
                     }
                 }
 
@@ -298,29 +304,33 @@ namespace PdfMerge.SplitMergeLib
                     throw new Exception("Merge cancelled due to bookmark issue");
                 }
             }
+
+            return bmCount;
         }
 
-        public void DoAddBookmarksFromFile(ref PdfBookmark bm, int page, int level)
+        public int DoAddBookmarksFromFile(ref PdfBookmark bm, int page, int level)
         {
             // get the outline object
             PdfDictionary outline = (PdfDictionary)this.inputDocument.Internals.Catalog.Elements.GetObject("/Outlines");
             if (outline == null)
             {
-                return;
+                return 0;
             }
 
             PdfDictionary first = (PdfDictionary)outline.Elements.GetObject("/First");
             if (first == null)
             {
-                return;
+                return 0;
             }
 
             // add the bookmarks
-            this.AddSubBookmarksFromFile(ref bm, page, level, first);
+            return this.AddSubBookmarksFromFile(ref bm, page, level, first);
         }
 
-        public void AddSubBookmarksFromFile(ref PdfBookmark bm, int page, int level, PdfDictionary outline)
+        public int AddSubBookmarksFromFile(ref PdfBookmark bm, int page, int level, PdfDictionary outline)
         {
+            int bmCount = 0;
+
             PdfDictionary mark = outline;
 
             // get titles and pages of all bookmarks at this level
@@ -332,7 +342,7 @@ namespace PdfMerge.SplitMergeLib
                 string title = mark.Elements.GetString("/Title");
                 if (title == null)
                 {
-                    return;
+                    return bmCount;
                 }
 
                 // direct
@@ -411,6 +421,7 @@ namespace PdfMerge.SplitMergeLib
                         if (page_offset != -1 && included == true)
                         {
                             bm.AddBookmark(title, page_offset + page, level);
+                            ++bmCount;
                             level_offset = 1;
                         }
                     }
@@ -420,12 +431,14 @@ namespace PdfMerge.SplitMergeLib
                 PdfDictionary child = (PdfDictionary)mark.Elements.GetObject("/First");
                 if (child != null)
                 {
-                    this.AddSubBookmarksFromFile(ref bm, page, level + level_offset, child);
+                    bmCount += this.AddSubBookmarksFromFile(ref bm, page, level + level_offset, child);
                 }
 
                 // get the next mark
                 mark = (PdfDictionary)mark.Elements.GetObject("/Next");
             }
+
+            return bmCount;
         }
 
         // indirectly named (per 1.6 sample from acrobat website)

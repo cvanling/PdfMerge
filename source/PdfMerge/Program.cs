@@ -41,6 +41,8 @@
 //
 // Revision History:
 //
+//   1.2 Jan 27/2018 C. Van Lingen  (V2.01) Added argument for unit testing
+//     
 //   1.1 Jul 30/2008 C. Van Lingen  (V1.18) Added XML command file support and improved
 //                                  GUI
 //   1.0 Jan  1/2008 C. Van Lingen  (V1.17) Initial Release
@@ -107,10 +109,22 @@ namespace PdfMerge
         {
             showGui = false;
 
+            bool createTestInfo = false;
+            if (arguments.Length > 3)
+            {
+                for (int iArg = 3; iArg < arguments.Length; ++iArg)
+                {
+                    if (arguments[iArg].ToUpper() == "/CREATETESTINFO")
+                    {
+                        createTestInfo = true;
+                    }
+                }
+            }
+
             SplitMergeCmdFile splitmerge = new SplitMergeCmdFile();
             cmdfile = arguments[1];
             outfile = arguments[2];
-            string err = splitmerge.DoSplitMerge(cmdfile, outfile);
+            string err = splitmerge.DoSplitMerge(cmdfile, outfile, null, 1, false, null, PaginationFormatting.PaginationFormats.PF_Page_1_of_N, createTestInfo);
             if (err.Length > 0)
             {
                 return err;

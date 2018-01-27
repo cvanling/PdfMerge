@@ -39,6 +39,8 @@
 //
 // Revision History:
 //
+//   2.0 Jan 27/2018 C. Van Lingen  <V2.01> Bug fixes - page list now works per documentation, document level is restored from XML even if bookmark is not used
+//                                  DLL's are now merged into main EXE for easier use as a portable app
 //   1.9 Nov  7/2012 C. Van Lingen  <V1.22> Updated documentation.
 //   1.8 Oct 21/2012 C. Van Lingen  <V1.21> Added right click context menu for
 //                                  copying filenames to bookmarks and duplicating
@@ -78,7 +80,7 @@ using System.Reflection;
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("2.0.*")]
+[assembly: AssemblyVersion("2.1.*")]
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 [assembly: AssemblyKeyName("")]

@@ -28,7 +28,6 @@
 
     <Feature Id="ProductFeature" Title="PdfMerge" Level="1">
       <ComponentRef Id="ProductComponents" />
-      <ComponentRef Id="ProductLocDe" />
       <ComponentRef Id="ApplicationShortcut" />
       <ComponentRef Id="ApplicationShortcutDesktop" />
     </Feature>
@@ -44,7 +43,6 @@
       
       <Directory Id="ProgramFilesFolder">
         <Directory Id="APPLICATIONROOTDIRECTORY" Name="PdfMerge">
-          <Directory Id="APPLICATION_LOC_DE" Name="de"/>
         </Directory>
       </Directory>
       
@@ -61,19 +59,7 @@
     <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
       <Component Id="ProductComponents" Guid="{F5A29819-944E-46A6-8791-D8BF5501899C}">
         <File Id="MAINEXE" Source="$(var.PdfMerge.TargetPath)" KeyPath="yes" Checksum="yes"/>
-        <File Id="PDFSHARP" Source="$(var.PdfMerge.TargetDir)PdfSharp.dll" KeyPath="no" Checksum="yes"/>
-        <File Id="PDFSHARPCHARTING" Source="$(var.PdfMerge.TargetDir)PdfSharp.Charting.dll" KeyPath="no" Checksum="yes"/>
-        <File Id="ITEXTSHARP" Source="$(var.PdfMerge.TargetDir)iTextSharp.dll" KeyPath="no" Checksum="yes"/>
         <File Id="READMEDOC" Source="$(var.PdfMerge.TargetDir)readme.pdf" KeyPath="no" Checksum="yes"/>
-      </Component>
-    </DirectoryRef>
-  </Fragment>
-
-  <Fragment>
-    <DirectoryRef Id="APPLICATION_LOC_DE">
-      <Component Id="ProductLocDe" Guid="{F5A29819-944E-46A6-8791-D8BF5501899D}">
-        <File Id="PDFSHARPRES" Source="$(var.PdfMerge.TargetDir)\de\PdfSharp.resources.dll" KeyPath="no" Checksum="yes"/>
-        <File Id="PDFSHARPCHARTINGRES" Source="$(var.PdfMerge.TargetDir)\de\PdfSharp.Charting.resources.dll" KeyPath="no" Checksum="yes"/>
       </Component>
     </DirectoryRef>
   </Fragment>

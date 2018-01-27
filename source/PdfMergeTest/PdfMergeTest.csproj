@@ -60,6 +60,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="testfiles\mergetestcase3.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="testfiles\mergetestcase2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="testfiles\mergetestcase1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
