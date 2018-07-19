@@ -1,0 +1,153 @@
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+
+namespace PdfMerge
+{
+    class Program
+    {
+        [STAThread]
+        static void Main(string[] args)
+        {
+            try
+            {
+                if (args[0] != string.Empty)
+                {
+                    string file = string.Empty;
+                    if (File.Exists(args[0]))
+                    {
+                        file = System.IO.Path.GetFileName(args[0]);
+
+                        if (file.IndexOf(".txt") > 0)
+                        {
+                            string[] lines = File.ReadAllLines(args[0]);
+
+                            string[] lineitems = null;
+                            List<string> sourceFiles = new List<string>();
+                            List<string> bookmarks = new List<string>();
+
+                            foreach (string item in lines)
+                            {
+                                lineitems = item.Split(';');
+
+                                sourceFiles.Add(lineitems[0].ToString());
+                                bookmarks.Add(lineitems[3].ToString());
+                            }
+
+                            if (args[1] != string.Empty)
+                            {
+                                MergeFiles(args[1], sourceFiles.ToArray(), bookmarks.ToArray());
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.Message);
+                Console.Error.WriteLine(e.StackTrace);
+            }
+        }
+
+        private static void MergeFiles(string destinationFile, string[] sourceFiles, string[] bookMarks)
+        {
+            PdfReader reader;
+            PdfImportedPage page;
+            int pdfCount = 0;
+            int importPdfPageCount = 0;
+            int currPageNumber = 1;
+            int printPage = 0;
+            List<Dictionary<string, object>> bookMarkList = new List<Dictionary<string, object>>();
+            Document doc = new Document();
+            doc.SetMargins(18, 18, 18, 18);
+            doc.AddCreationDate();
+            doc.AddCreator("CREATOR");
+            doc.AddTitle(Path.GetFileNameWithoutExtension(destinationFile));
+            try
+            {
+                PdfCopy copy = new PdfCopy(doc, new FileStream(destinationFile, FileMode.Create));
+                copy.ViewerPreferences = PdfWriter.PageModeUseOutlines;
+                doc.Open();
+                for (int i = 0; i < sourceFiles.Length; i++)
+                {
+                    try
+                    {
+                        reader = new PdfReader(sourceFiles[i]);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.Error.WriteLine(e.ToString());
+                        reader = ReplaceBadFiles(null, destinationFile, sourceFiles[i]);
+                    }
+                    if (!reader.IsOpenedWithFullPermissions)
+                    {
+                        reader = ReplaceBadFiles(reader, destinationFile, sourceFiles[i]);
+                    }
+                    pdfCount += 1;
+                    importPdfPageCount = reader.NumberOfPages;
+                    printPage = i == 0 ? 1 : currPageNumber + 1;
+                    copy.SetPageSize(reader.GetPageSizeWithRotation(1));
+                    copy.NewPage();
+                    Paragraph p = new Paragraph(bookMarks[i]);
+                    Chapter c = new Chapter(p, pdfCount);
+                    copy.Add(c);
+
+                    var bookmark = new Dictionary<string, object>();
+                    bookmark.Add("Title", bookMarks[i]);
+                    bookmark.Add("Action", "GoTo");
+                    bookmark.Add("Page", $"{printPage}");
+                    bookMarkList.Add(bookmark);
+                    page = copy.GetImportedPage(reader, 1);
+                    PdfContentByte content = copy.DirectContent;
+                    var rotation = reader.GetPageRotation(1);
+                    if (rotation == 90 || rotation == 270)
+                    {
+                        if (rotation == 90)
+                        {
+                            content.AddTemplate(page, 0, -1f, 1f, 0, 0, reader.GetPageSizeWithRotation(1).Height);
+                        }
+
+                        if (rotation == 270)
+                        {
+                            content.AddTemplate(page, 0, 1.0F, -1.0F, 0, reader.GetPageSizeWithRotation(1).Width, 0);
+                        }
+                    }
+                    else
+                    {
+                        content.AddTemplate(page, 1f, 0, 0, 1f, 0, 0);
+                    }
+
+                    copy.AddDocument(reader);
+                    reader.Close();
+                    currPageNumber = i == 0 ? currPageNumber += importPdfPageCount - 1 : currPageNumber += importPdfPageCount;
+                }
+                copy.Outlines = bookMarkList;
+                doc.Close();
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e.ToString());
+            }
+        }
+
+
+        private static PdfReader ReplaceBadFiles(PdfReader reader, string destinationFile, string sourceFile)
+        {
+            string replacementFile = $"{Path.GetDirectoryName(destinationFile)}\\FailedMedia_{Path.GetFileName(sourceFile)}";
+            string errorText = $"Media File:  {Path.GetFileName(sourceFile)} could not be merged into the requested report due to lack of permissions on the " +
+                $"file or corrupted data.  You will need to manually print the {Path.GetFileName(sourceFile)}";
+
+            Document doc = new Document(iTextSharp.text.PageSize.LETTER, 10, 10, 42, 25);
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(replacementFile, FileMode.Create));
+            doc.Open();
+            Paragraph paragraph = new Paragraph(errorText);
+            doc.Add(paragraph);
+            doc.Close();
+            PdfReader tempReader = new PdfReader(replacementFile);
+            return tempReader;
+        }
+    }
+}
